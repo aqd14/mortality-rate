@@ -1,0 +1,226 @@
+#chart{
+  float:right;
+  border:2px solid #000;
+  border-radius: 5px;
+}
+
+#legends{
+  width: 200px;
+  position: fixed;
+}
+
+.legend-causes{
+  width: 200px;
+  top: 145px;
+  overflow: auto;
+  position: fixed;
+}
+
+#slider{
+  width:50%;
+  margin: auto;
+  padding-top: 5px;
+}
+
+#slider p{
+  text-align: center;
+  font-family: Futura;
+  font-size: 12;
+}
+
+#slider input{
+  width:100%;
+}
+
+footer{
+  float: bottom;
+  display: none;
+}
+
+body{ 
+  color: #666;
+  background: #f3f3f3;
+  font: normal 10px "Helvetica Neue", Helvetica, sans-serif;
+  margin: 2em;
+  position: relative;
+}
+
+h1, p{ 
+  font-weight: 300;
+  text-shadow: #fff 0 1px 0; 
+  margin: 0 0 0 0; 
+  padding: 0; 
+}
+
+.world-map{
+  width: 900px;
+  margin:14px 0 0 220px;
+}
+
+.world-map h2{
+  font-family:Nobile, Arial, Helvetica, sans-serif;
+  background-color:#00aeef;
+  font-size:14px;
+  line-height:16px;
+  font-weight:bold;
+  color:#ffffff;
+  margin:14px 0 1px 0;
+  padding:4px 10px 2px 10px;
+}
+
+p.hint{ 
+  margin-top: 0.25em; 
+}
+
+h1{ 
+  font-size: 28px; 
+  font-weight: normal; 
+}
+
+p{
+  font-size: 12px; 
+}
+    
+a{ 
+  color: #666; 
+}
+
+.hidden{ 
+  display: none; 
+}
+
+/*div.tooltip{ 
+  color: #222; 
+  background: #fff;
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute; 
+}*/
+
+#chart svg path{
+  stroke: black;
+  stroke-width: 0.5px;
+  stroke-dasharray: 2,2;
+  stroke-linejoin: round;
+}
+
+path.country{ 
+  fill: #e7eaef; 
+  stroke: none; 
+}
+
+text.legend{ 
+  fill: #242930; 
+}
+
+.legend-causes ul { list-style: none; padding: 0; margin: 5px 0; width: 110px; }
+.legend-causes li { padding: 3px 4px; margin-bottom: 1px; overflow: hidden; }
+.legend-causes li.selection { cursor: pointer; }
+.legend-causes li.selection:hover, .map-wrapper li.selected { background-color: #CCC; }
+.legend-causes .title { font-weight: bold; padding-left: 3px; }
+.legend-causes .color-block {
+  float: left;
+  width: 30px;
+  height: 15px;
+}
+
+.legend-causes .cause-text,
+.legend-values .value-text {
+  float: left;
+  line-height: 16px;
+  margin-left: 5px;
+}
+
+
+.country:hover{
+  stroke: #fff;
+  stroke-width: 1.5px;
+}
+
+.text{
+  font-size:10px;
+  text-transform:capitalize;
+}
+
+#container {
+  margin:10px 10%;
+  border:2px solid #000;
+  border-radius: 5px;
+  height:100%;
+  overflow:hidden;
+  background: #F0F8FF;
+}
+
+.hidden { 
+  display: none; 
+}
+
+div.tooltip {
+  color: #222; 
+  background: #fff; 
+  padding: .5em; 
+  text-shadow: #f5f5f5 0 1px 0;
+  border-radius: 2px; 
+  box-shadow: 0px 0px 2px 0px #a6a6a6; 
+  opacity: 0.9; 
+  position: absolute;
+}
+
+div.tooltip .sep{ 
+  color: #444; 
+  font-weight: 300; 
+}
+
+.graticule {
+  fill: none;
+  stroke: #bbb;
+  stroke-width: .5px;
+  stroke-opacity: .5;
+}
+
+.equator {
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+.legend-control {
+    position: relative;
+    z-index: 7;
+    pointer-events: auto;
+}
+
+.map-legends {
+    width: 135px;
+    border-radius: 1px;
+    box-shadow: 0 1px 5px rgba(16,31,40,.2);
+    color: #101f28;
+}
+
+.map-legends .swatch {
+    float: left;
+    height: 10px;
+    margin-right: 10px;
+    width: 10px;
+}
+
+.map-legends ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.map-legends ul li {
+    border-top: 1px solid rgba(0,0,0,.05);
+    line-height: 1;
+    margin: 0;
+    padding: 5px 10px;
+}
+
+
+
+
+
+
