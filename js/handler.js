@@ -18,6 +18,8 @@ var sub_range = 5
 var disease_index = 0;
 // Default value for color disease (Total rate)
 var disease_color = d3.schemeReds[sub_range];
+// Mortality rate domain
+var rate_domain = [];
 
 var max_value;
 var min_value;
@@ -113,11 +115,11 @@ function drawMap() {
 // Initialize parameters needed to draw map at first time
 function initMapParams() {
   // Get min/max values
-  updateValues();
+  updateBoundaryValues();
   // Get default color
   color = getDiseaseColor();
   // Create legend with default color
-  updateLegendColor(disease_list[disease_index]);
+  updateLegend(disease_list[disease_index]);
 }
 
 // Highlight country when user selects
@@ -245,18 +247,18 @@ function update() {
   }
 
   // Update max/min value
-  updateValues();
+  updateBoundaryValues();
   // Get main color
   color = getDiseaseColor();
   // Update choropleth map
   updateMap();
   // Update legends
-  updateLegendColor(disease_list[disease_index]);
+  updateLegend(disease_list[disease_index]);
 //  d3.select("#yearLabel").text(2000);
 }
 
-// Update maximum and minimum number of rate
-function updateValues() {
+// Extract maximum and minimum number of mortility rate
+function updateBoundaryValues() {
   values = d3.values(data).map(function(d) { return d[disease_index]; })
   max_value = +d3.max(values);
   min_value = +d3.min(values);
@@ -270,13 +272,14 @@ function getDataCurrentYear(curYear) {
 
 function getDiseaseColor() {
   var diff = (max_value - min_value)/sub_range;
-  color_domain = [];
-  for (var sub_range_index = 0; sub_range_index < sub_range; sub_range_index ++) {
+  rate_domain = [];
+  // Range has 5 values => domain should have 6 intervals
+  for (var sub_range_index = 0; sub_range_index <= sub_range; sub_range_index ++) {
     value = parseFloat(min_value + diff*sub_range_index).toFixed(1);
-    color_domain.push(value);
+    rate_domain.push(value);
   }
   var color = d3.scaleQuantile()
-    .domain(color_domain)
+    .domain(rate_domain)
     .range(disease_color);
   return color;
 }
@@ -292,8 +295,13 @@ function updateMap() {
 }
 
 /* Create chorolepath threshold */
-function updateLegendColor(disease_name) {
+function updateLegend(disease_name) {
+  // Update color
   d3.selectAll(".swatch").style("background", function(d, i) {
     return disease_color[i];
+  });
+  // Update text
+  d3.select(".map-legends").selectAll(".range").text(function(d, i) {
+    return rate_domain[i].toString() + " - " + rate_domain[i + 1].toString();
   });
 }
