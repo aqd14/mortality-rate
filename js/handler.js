@@ -65,21 +65,28 @@ var tooltip = d3.select("#chart")
                 //.attr("hidden", "true");
 
 var data = {};
+var data_2000 = {};
+var data_2015 = {};
 
-d3.csv("data/mortality-2000.csv", function(row) {
-	// Convert data from string to number
-	row.forEach(function(d, i) {
-		var diseases = [];
+function readData(fileName, data) {
+  d3.csv(fileName, function(row) {
+  // Convert data from string to number
+  row.forEach(function(d, i) {
+    var diseases = [];
     var total = 0;
-		for (var index = 1; index < disease_list.length; index ++) {
-			diseases.push(+d[disease_list[index]]);
+    for (var index = 1; index < disease_list.length; index ++) {
+      diseases.push(+d[disease_list[index]]);
       total = total + parseFloat(d[disease_list[index]]);
-		};
+    };
     diseases.unshift(total.toFixed(1));
-		data[d.CountryName] = diseases;
-		return;
-	});
+    data[d.CountryName] = diseases;
+    return;
+  });
  });
+}
+
+readData("data/mortality-2000.csv", data_2000);
+readData("data/mortality-2015.csv", data_2015);
 
 // The map
 d3.json("topojson/world-topo-min.json", function(error, world) {
@@ -114,6 +121,8 @@ function drawMap() {
 
 // Initialize parameters needed to draw map at first time
 function initMapParams() {
+  // Default dataset
+  data = data_2000;
   // Get min/max values
   updateBoundaryValues();
   // Get default color
@@ -213,6 +222,11 @@ $( "#separate-disease .selection" ).click(function(d, i) {
 
 /* Update map color based on the disease's rate */
 function update() {
+  var curYear = +d3.select("#year").node().value;
+  d3.select("#yearLabel").text(curYear);
+  data = getDataCurrentYear(curYear);
+  console.log("current year: " + curYear);
+
   switch(disease_index) {
     case 0: // Total rate
       disease_color = d3.schemeReds[sub_range];
@@ -254,7 +268,6 @@ function update() {
   updateMap();
   // Update legends
   updateLegend(disease_list[disease_index]);
-//  d3.select("#yearLabel").text(2000);
 }
 
 // Extract maximum and minimum number of mortility rate
@@ -266,7 +279,18 @@ function updateBoundaryValues() {
 
 // Return data corressponding with selected year
 function getDataCurrentYear(curYear) {
-  data = {};
+  var data;
+  switch(curYear) {
+    case 2000: 
+      data = data_2000;
+      break;
+    case 2015: 
+      data = data_2015;
+      break;
+    default:
+      data = data_2000;
+      break;
+  }
   return data;
 }
 
@@ -302,7 +326,7 @@ function updateLegend(disease_name) {
   });
   // Update text
   d3.select(".map-legends").selectAll(".range").text(function(d, i) {
-    return rate_domain[i].toString() + " - " + rate_domain[i + 1].toString();
+      return rate_domain[i].toString() + " - " + rate_domain[i + 1].toString();
   });
   // Update title
   d3.select("#legends").select(".legend-title").text(disease_list[disease_index]);
