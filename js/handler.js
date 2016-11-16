@@ -4,7 +4,7 @@
 
 var disease_list = ['Total', 'Pneumonia','Diarrhoea','Malaria','Aids','Measles','Injury','Meningitis','Other'];
 
-var topo,projection,path,svg;
+var topo, projection, path, svg;
 
 var color;
 var curYear = 2000; // Default current year
@@ -304,4 +304,6 @@ function updateLegend(disease_name) {
   d3.select(".map-legends").selectAll(".range").text(function(d, i) {
     return rate_domain[i].toString() + " - " + rate_domain[i + 1].toString();
   });
+  // Update title
+  d3.select("#legends").select(".legend-title").text(disease_list[disease_index]);
 }
