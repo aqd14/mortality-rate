@@ -116,11 +116,13 @@ function drawMap() {
       	return no_data_available_color;
       })
       .on("mouseover", function(d,i) { handleMouseOver(d); })
-      .on("mouseout", handleMouseOut);
+      .on("mouseout", handleMouseOut)
+      .on("click", function(d) { handleMouseClick(d.properties.name);});
 }
 
 // Initialize parameters needed to draw map at first time
 function initMapParams() {
+  $(window).scrollTop($(".world-map").offset().top);
   // Default dataset
   data = data_2000;
   // Get min/max values
@@ -132,8 +134,11 @@ function initMapParams() {
 }
 
 // Highlight country when user selects
-function handleMouseClick(){
-
+function handleMouseClick(country_name){
+  console.log("Click on: " +country_name);
+  makeBarChart(country_name);
+  // Scroll down to the detail charts
+  $(window).scrollTop($(".indicator-container").offset().top);
 }
 
 
@@ -205,7 +210,6 @@ function click() {
 
 // Handle event click on total rate
 $("#Total").click(function(d, i) {
-  console.log("Click on total!");
   if ($(this).index !== 0) {
     disease_index = 0; // Get index of "Total rate"
     update();
@@ -225,7 +229,6 @@ function update() {
   var curYear = +d3.select("#year").node().value;
   d3.select("#yearLabel").text(curYear);
   data = getDataCurrentYear(curYear);
-  console.log("current year: " + curYear);
 
   switch(disease_index) {
     case 0: // Total rate
@@ -330,4 +333,85 @@ function updateLegend(disease_name) {
   });
   // Update title
   d3.select("#legends").select(".legend-title").text(disease_list[disease_index]);
+}
+
+// Create bar chart for selected country
+function makeBarChart(country_name) {
+  // Build up data
+  var country_data = [];
+  for (var i = 1; i < disease_list.length; i ++) {
+    // country_data[disease_list[i]] = data[country_name][i];
+    var obj = {
+      "disease": disease_list[i],
+      "rate": data[country_name][i]  
+    }
+    country_data.push(obj);
+  }
+
+  var svg = d3.select(".indicator-container .svg");
+  if (svg.empty() == true) {
+    svg = d3.select(".indicator-container").append("svg").attr("width", "600").attr("height", "350");
+  } else {
+    // Remove all children to redraw
+    svg.selectAll("*").remove();
+  }
+  //var container = d3.select(".indicator-container");
+  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+              width = parseInt(svg.attr("width")) - margin.left - margin.right,
+              height = parseInt(svg.attr("height")) - margin.top - margin.bottom;
+              /*width = 600;
+              height = 350;
+  console.log("Height: " + parseInt(container.style("height").replace("px")));
+  console.log("Width: " + width);*/
+  var g = svg.append("g")
+          .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+      y = d3.scaleLinear().rangeRound([height, 0]);
+
+  x.domain(country_data.map(function(d) { return d.disease; }));
+  y.domain([0, d3.max(country_data, function(d) { return d.rate; })]);
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y).ticks(10))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("text-anchor", "end")
+      .text("Rate");
+
+  g.selectAll(".bar")
+    .data(country_data)
+    .enter().append("rect")
+      .attr("class", "bar")
+      .attr("x", function(d) { return x(d.disease); })
+      .attr("y", function(d) { return y(d.rate); })
+      .attr("width", x.bandwidth())
+      .attr("height", function(d) { return height - y(d.rate); });
+
+  // Make bar text
+  d3.select(".indicator-container .svg .g")
+    .data(country_data)
+    .enter()
+    .append("text")
+    .attr("text-anchor", "middle")
+    .text(function(d) { 
+      console.log("Rate: " + d.rate);
+      return d.rate; })
+    .attr("x", function(d, i) {
+            return i * (width / country_data.length) + (width / country_data.length - 1) / 2;
+         })
+    .attr("y", function(d) {
+      return height - (d * 4) + 14;
+    })
+    .attr("font-family", "sans-serif")
+    .attr("font-size", "11px")
+    .attr("fill", "white");
 }

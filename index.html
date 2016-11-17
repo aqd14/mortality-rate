@@ -14,98 +14,97 @@
   </head>
   <body>
     <div class="container">
-      <div class="dashboard">
-        <div class="dashboard-container">
-          <div class="map-container">
-            <div class="map-wraper">
-              <div class="legend-causes">
-                <span class="title">Under-five mortality rate</span>
-                  <ul>
-                    <li id="Total" class="selection">
-                      <span class="color-block" style="background-color: #99000d"></span>
-                      <span class="cause-text">Total</span>
-                    </li>
-                  </ul>
-                <span class="title">Under-five deaths by cause</span>
-                  <ul id = "separate-disease">
-                    <li id="sub_1" class="selection">
-                      <span class="color-block" style="background-color: #005a32"></span>
-                      <span class="cause-text">Pneumonia </span>
-                    </li>
-                    <li id="sub_2" class="selection">
-                      <span class="color-block" style="background-color: #252525"></span>
-                      <span class="cause-text">Diarrhoea </span>
-                    </li>
-                    <li id="sub_3" class="selection selected">
-                      <span class="color-block" style="background-color: #8c2d04"></span>
-                      <span class="cause-text">Malaria </span>
-                    </li>
-                    <li id="sub_4" class="selection">
-                      <span class="color-block" style="background-color: #4a1486"></span>
-                      <span class="cause-text">HIV/AIDS</span>
-                    </li>
-                    <li id="sub_5" class="selection">
-                      <span class="color-block" style="background-color: #084594"></span>
-                      <span class="cause-text">Measles </span>
-                    </li>
-                    <li id="sub_5" class="selection">
-                      <span class="color-block" style="background-color: #005824"></span>
-                      <span class="cause-text">Injury </span>
-                    </li>
-                    <li id="sub_5" class="selection">
-                      <span class="color-block" style="background-color: #6e016b"></span>
-                      <span class="cause-text">Meningitis </span>
-                    </li>
-                    <li id="sub_6" class="selection">
-                      <span class="color-block" style="background-color: #08589e"></span>
-                      <span class="cause-text">Other </span>
-                    </li>
-                  </ul>
-              </div>
-              <div id="legends">
-                  <div class = "legend-title">TOTAL</div>
-                   <div class="map-legends">
-                      <div class="map-legend wax-legend">
-                        <ul>
-                          <li>
-                            <span class="swatch" style="background: #cfedfB;"></span> 
-                            <span class="range"></span>
-                          </li>
-                          <li>
-                            <span class="swatch" style="background: #cfedfB;"></span>
-                            <span class="range"></span>
-                          </li>
-                          <li>
-                            <span class="swatch" style="background: #9cd2ed;"></span>
-                            <span class="range"></span>
-                          </li>
-                          <li>
-                            <span class="swatch" style="background: #70bdff;"></span>
-                            <span class="range"></span>
-                          </li>
-                          <li>
-                            <span class="swatch" style="background: #4d739e;"></span>
-                            <span class="range"></span>
-                          </li>
-                          <li>
-                            <span class="swatch-undefined" style="background: #999999;"></span>
-                            <span class="range-undefined">Undefined</span>
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-              </div>
-              <div class=world-map>
-                <h2>UNDER-FIVE MORTALITY RATE IN EACH COUNTRY</h2>
-                <div id="chart">
-                    <div id="slider">
-                      <p id="yearLabel">2000</p>
-                      <input type="range" id="year" value="2000" min="2000" max="2015" step = "15" oninput="update()" />
-                    </div>
-                </div>
+      <div class="legend-container">
+        <div id="legends">
+          <div class = "legend-title">TOTAL</div>
+           <div class="map-legends">
+              <div class="map-legend wax-legend">
+                <ul>
+                  <li>
+                    <span class="swatch" style="background: #cfedfB;"></span> 
+                    <span class="range"></span>
+                  </li>
+                  <li>
+                    <span class="swatch" style="background: #cfedfB;"></span>
+                    <span class="range"></span>
+                  </li>
+                  <li>
+                    <span class="swatch" style="background: #9cd2ed;"></span>
+                    <span class="range"></span>
+                  </li>
+                  <li>
+                    <span class="swatch" style="background: #70bdff;"></span>
+                    <span class="range"></span>
+                  </li>
+                  <li>
+                    <span class="swatch" style="background: #4d739e;"></span>
+                    <span class="range"></span>
+                  </li>
+                  <li>
+                    <span class="swatch-undefined" style="background: #999999;"></span>
+                    <span class="range-undefined">Undefined</span>
+                  </li>
+                </ul>
               </div>
             </div>
+        </div>
+        <div class="legend-causes">
+          <span class="title">Under-five mortality rate</span>
+          <ul>
+            <li id="Total" class="selection">
+              <span class="color-block" style="background-color: #99000d"></span>
+              <span class="cause-text">Total</span>
+            </li>
+          </ul>
+          <span class="title">Under-five deaths by cause</span>
+          <ul id = "separate-disease">
+            <li id="sub_1" class="selection">
+              <span class="color-block" style="background-color: #005a32"></span>
+              <span class="cause-text">Pneumonia </span>
+            </li>
+            <li id="sub_2" class="selection">
+              <span class="color-block" style="background-color: #252525"></span>
+              <span class="cause-text">Diarrhoea </span>
+            </li>
+            <li id="sub_3" class="selection selected">
+              <span class="color-block" style="background-color: #8c2d04"></span>
+              <span class="cause-text">Malaria </span>
+            </li>
+            <li id="sub_4" class="selection">
+              <span class="color-block" style="background-color: #4a1486"></span>
+              <span class="cause-text">HIV/AIDS</span>
+            </li>
+            <li id="sub_5" class="selection">
+              <span class="color-block" style="background-color: #084594"></span>
+              <span class="cause-text">Measles </span>
+            </li>
+            <li id="sub_5" class="selection">
+              <span class="color-block" style="background-color: #005824"></span>
+              <span class="cause-text">Injury </span>
+            </li>
+            <li id="sub_5" class="selection">
+              <span class="color-block" style="background-color: #6e016b"></span>
+              <span class="cause-text">Meningitis </span>
+            </li>
+            <li id="sub_6" class="selection">
+              <span class="color-block" style="background-color: #08589e"></span>
+              <span class="cause-text">Other </span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="map-container">
+        <div class=world-map>
+          <h2>UNDER-FIVE MORTALITY RATE IN EACH COUNTRY</h2>
+          <div id="chart">
+              <div id="slider">
+                <p id="yearLabel">2000</p>
+                <input type="range" id="year" value="2000" min="2000" max="2015" step = "15" oninput="update()" />
+              </div>
           </div>
+        </div>
+        <div class="indicator-container">
+          <h2>TRENDS IN UNDER-FIVE MORTALITY RATE AND CAUSES OF UNDER-FIVE DEATHS</h2>
         </div>
       </div>
     </div>

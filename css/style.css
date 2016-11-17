@@ -1,5 +1,28 @@
+body{ 
+  color: #666;
+  background: #f3f3f3;
+  font: normal 10px "Helvetica Neue", Helvetica, sans-serif;
+  margin: 2em;
+  position: relative;
+}
+
+.legend-container{
+  width: 20%;
+  height: 100%;
+}
+
+.map-container{
+  width: 80%;
+  float: right;
+}
+
+.indicator-container{
+  height: 500px;
+  width: 900px;
+}
+
+
 #chart{
-  float:right;
   border:2px solid #000;
   border-radius: 5px;
 }
@@ -37,14 +60,6 @@ footer{
   display: none;
 }
 
-body{ 
-  color: #666;
-  background: #f3f3f3;
-  font: normal 10px "Helvetica Neue", Helvetica, sans-serif;
-  margin: 2em;
-  position: relative;
-}
-
 h1, p{ 
   font-weight: 300;
   text-shadow: #fff 0 1px 0; 
@@ -52,12 +67,7 @@ h1, p{
   padding: 0; 
 }
 
-.world-map{
-  width: 900px;
-  margin:14px 0 0 220px;
-}
-
-.world-map h2{
+.map-container h2{
   font-family:Nobile, Arial, Helvetica, sans-serif;
   background-color:#00aeef;
   font-size:14px;
@@ -226,6 +236,9 @@ div.tooltip .sep{
   text-transform: uppercase;
 }
 
+.bar {
+  fill: steelblue;
+}
 
 
 
