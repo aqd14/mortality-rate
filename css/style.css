@@ -9,6 +9,12 @@ body{
 .legend-container{
   width: 20%;
   height: 100%;
+  position: relative;
+}
+
+.note-container{
+  bottom: 0;
+  position: absolute;
 }
 
 .map-container{
@@ -30,11 +36,12 @@ body{
 #legends{
   width: 200px;
   position: fixed;
+  padding-bottom: 20px;
 }
 
 .legend-causes{
   width: 200px;
-  top: 180px;
+  top: 200px;
   overflow: auto;
   position: fixed;
 }
@@ -234,6 +241,7 @@ div.tooltip .sep{
 .legend-title {
   font-weight: bold;
   text-transform: uppercase;
+  padding-bottom: 5px;
 }
 
 .bar {
