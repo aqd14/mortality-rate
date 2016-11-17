@@ -10,7 +10,7 @@ var color;
 var curYear = 2000; // Default current year
 
 var no_data_available_color = "#999999";
-
+var selected_country;
 
 // Number of legend, range
 var sub_range = 5
@@ -117,7 +117,10 @@ function drawMap() {
       })
       .on("mouseover", function(d,i) { handleMouseOver(d); })
       .on("mouseout", handleMouseOut)
-      .on("click", function(d) { handleMouseClick(d.properties.name);});
+      .on("click", function(d) { 
+        selected_country = d.properties.name;
+        handleMouseClick();
+      });
 }
 
 // Initialize parameters needed to draw map at first time
@@ -134,9 +137,11 @@ function initMapParams() {
 }
 
 // Highlight country when user selects
-function handleMouseClick(country_name){
-  console.log("Click on: " +country_name);
-  makeBarChart(country_name);
+function handleMouseClick(){  
+  // Update country name on top of chart
+  d3.select(".tab-view").select("h3").text(selected_country);
+  // Make bar chart
+  makeSupportChart();
   // Scroll down to the detail charts
   $(window).scrollTop($(".indicator-container").offset().top);
 }
@@ -163,7 +168,7 @@ function handleMouseOut() {
 	tooltip.classed("hidden", true)
 }
 
-
+// Redraw map when zoom in, zoom out
 function redraw() {
   width = c.offsetWidth;
   height = width / 2;
@@ -217,12 +222,48 @@ $("#Total").click(function(d, i) {
 });
 
 // Handle event click on separate disease
-$( "#separate-disease .selection" ).click(function(d, i) {
+$( "#separate-disease .selection" ).click(function() {
   if (disease_index !== ($(this).index() + 1)) {
     disease_index = $(this).index() + 1;
     update();
   }
 });
+
+// Chart index:
+// 0 : Bar chart
+// 1 : Line chart
+// 2 : Pie chart
+var chart_index = 0;
+// Handle event select type of chart
+$(".nav-tabs li").click(function(d) {
+  if (chart_index !== $(this).index()) {
+    // Update tab item status
+    $(this).siblings().removeClass("active");
+    $(this).addClass("active");
+    // Update chart index
+    chart_index = $(this).index();
+    // Make supporting chart based on type selected
+    makeSupportChart();
+  }
+});
+
+// Make support chart based on chart index
+// Maintain chart index for each selection
+function makeSupportChart() {
+  switch(chart_index) {
+    case 0: 
+      makeBarChart();
+      break;
+    case 1:
+      makeLineChart();
+      break;
+    case 2: 
+      makePieChart();
+    default:
+      makeBarChart();
+      break;
+  }
+}
 
 /* Update map color based on the disease's rate */
 function update() {
@@ -335,19 +376,28 @@ function updateLegend(disease_name) {
   d3.select("#legends").select(".legend-title").text(disease_list[disease_index]);
 }
 
-// Create bar chart for selected country
-function makeBarChart(country_name) {
+// Extract mortality rate for selected country
+// To ease the process of projecting data
+function extractRate() {
   // Build up data
   var country_data = [];
   for (var i = 1; i < disease_list.length; i ++) {
-    // country_data[disease_list[i]] = data[country_name][i];
+    // country_data[disease_list[i]] = data[selected_country][i];
     var obj = {
       "disease": disease_list[i],
-      "rate": data[country_name][i]  
+      "rate": data[selected_country][i]  
     }
     country_data.push(obj);
   }
+  return country_data;
+}
 
+
+// Create bar chart for selected country
+function makeBarChart() {
+  // Extract country data
+  var country_data = extractRate(selected_country);
+  // Start drawing chart
   var svg = d3.select(".indicator-container svg");
   if (svg.empty()) {
     svg = d3.select(".indicator-container").append("svg").attr("width", "600").attr("height", "350");
@@ -397,7 +447,7 @@ function makeBarChart(country_name) {
       .attr("height", function(d) { return height - y(d.rate); });
 
   // Make bar text
-  g.data(country_data)
+  d3.select(".indicator-container").select("svg").select("g").data(country_data)
     .enter()
     .append("text")
     .attr("text-anchor", "middle")
@@ -412,4 +462,15 @@ function makeBarChart(country_name) {
     .attr("font-family", "sans-serif")
     .attr("font-size", "11px")
     .attr("fill", "white");
+}
+
+// Make line chart to compare mortality rate between selected country 
+// and average rate in whole world
+function makeLineChart() {
+
+}
+
+// Make pie chart to check the portion of each disease
+function makePieChart() {
+
 }
