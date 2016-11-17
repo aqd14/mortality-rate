@@ -9,7 +9,7 @@ var topo, projection, path, svg;
 var color;
 var curYear = 2000; // Default current year
 
-var no_data_available_color = "#999999";
+var no_data_available_color = "#f4e542";
 var selected_country;
 
 // Number of legend, range
@@ -405,6 +405,7 @@ function makeBarChart() {
     // Remove all children to redraw
     svg.selectAll("*").remove();
   }
+
   //var container = d3.select(".indicator-container");
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
               width = parseInt(svg.attr("width")) - margin.left - margin.right,
@@ -413,6 +414,7 @@ function makeBarChart() {
               height = 350;
   console.log("Height: " + parseInt(container.style("height").replace("px")));
   console.log("Width: " + width);*/
+
   var g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
@@ -422,6 +424,26 @@ function makeBarChart() {
   x.domain(country_data.map(function(d) { return d.disease; }));
   y.domain([0, d3.max(country_data, function(d) { return d.rate; })]);
 
+  // Add bar label
+  svg.selectAll("text")
+  .data(country_data)
+  .enter()
+  .append("text")
+  .text(function(d) { return d.rate; })
+  .attr("x", function(d, i) {
+            return i * (width / country_data.length) + 72;
+         })
+   .attr("y", function(d) {
+      if (d.rate > 0) {// Only display rate > 0
+        return y(d.rate) + 15;//h - (d * 4) + 15;
+      }
+   })
+  .attr("text-anchor", "middle")
+  .attr("font-family", "sans-serif")
+  .attr("font-size", "10px")
+  .attr("fill", "black")
+
+  // Make bars
   g.append("g")
       .attr("class", "axis axis--x")
       .attr("transform", "translate(0," + height + ")")
@@ -445,23 +467,6 @@ function makeBarChart() {
       .attr("y", function(d) { return y(d.rate); })
       .attr("width", x.bandwidth())
       .attr("height", function(d) { return height - y(d.rate); });
-
-  // Make bar text
-  d3.select(".indicator-container").select("svg").select("g").data(country_data)
-    .enter()
-    .append("text")
-    .attr("text-anchor", "middle")
-    .text(function(d) { 
-      return d.rate; })
-    .attr("x", function(d, i) {
-            return i * (width / country_data.length) + (width / country_data.length - 1) / 2;
-         })
-    .attr("y", function(d) {
-      return height - (d * 4) + 14;
-    })
-    .attr("font-family", "sans-serif")
-    .attr("font-size", "11px")
-    .attr("fill", "white");
 }
 
 // Make line chart to compare mortality rate between selected country 
