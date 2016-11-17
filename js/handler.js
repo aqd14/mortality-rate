@@ -348,8 +348,8 @@ function makeBarChart(country_name) {
     country_data.push(obj);
   }
 
-  var svg = d3.select(".indicator-container .svg");
-  if (svg.empty() == true) {
+  var svg = d3.select(".indicator-container svg");
+  if (svg.empty()) {
     svg = d3.select(".indicator-container").append("svg").attr("width", "600").attr("height", "350");
   } else {
     // Remove all children to redraw
@@ -397,13 +397,11 @@ function makeBarChart(country_name) {
       .attr("height", function(d) { return height - y(d.rate); });
 
   // Make bar text
-  d3.select(".indicator-container .svg .g")
-    .data(country_data)
+  g.data(country_data)
     .enter()
     .append("text")
     .attr("text-anchor", "middle")
     .text(function(d) { 
-      console.log("Rate: " + d.rate);
       return d.rate; })
     .attr("x", function(d, i) {
             return i * (width / country_data.length) + (width / country_data.length - 1) / 2;
