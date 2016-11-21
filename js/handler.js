@@ -49,6 +49,7 @@ var boom = {};
 var bust = {};
 
 var disease_list = ['Total', 'HIV','Diarrhoeal','Malaria','Measles','Injuries'];
+var color_range = ['#41ab5d', '#525252', '#d94801', '#6a51a3', '#2171b5']
 
 var projection, path, svg;
 var selected_country;
@@ -552,10 +553,16 @@ function makeBarChart() {
       .attr("text-anchor", "end")
       .text("Rate");
 
+  // Map color for # diseases
+  var color = d3.scaleOrdinal()
+              .domain(disease_list.slice(1, disease_list.length + 1))
+              .range(color_range);
   g.selectAll(".bar")
     .data(country_data)
     .enter().append("rect")
-      .attr("class", "bar")
+      .attr("fill", function(d) {
+        return color(d.disease);
+      })
       .attr("x", function(d) { return x(d.disease); })
       .attr("y", function(d) { return y(d.rate); })
       .attr("width", x.bandwidth())
@@ -636,7 +643,6 @@ function makeLineChart() {
       .entries(country_data);
   
   // var color = d3.scaleOrdinal(d3.schemeCategory10);   // set the colour scale
-  color_range = ['#41ab5d', '#525252', '#d94801', '#6a51a3', '#2171b5']
   var color = d3.scaleOrdinal(color_range);
 
   legendSpace = width/dataNest.length; // spacing for legend
