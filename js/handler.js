@@ -69,7 +69,11 @@ var surprise;
 setup(width,height);
 
 function setup(width,height){
-  projection = d3.geoMercator()
+  // projection = d3.geoPatterson()
+  //     .scale(153)
+  //   .translate([width / 2, height / 2])
+  //   .precision(.1);
+    projection = d3.geoMercator()
     .translate([(width/2), (height/2)])
     .scale( width / 2 / Math.PI);
 
@@ -81,7 +85,10 @@ function setup(width,height){
       .attr("height", height)
       .call(zoom)
       .append("g");
-
+  svg.append("path")
+    .datum(graticule)
+    .attr("class", "graticule")
+    .attr("d", path);
   g = svg.append("g")
          .on("click", click);
 }
@@ -121,10 +128,9 @@ d3.json("topojson/world-topo-min.json", function(error, world) {
 	drawMap(topo);
 });
 
-function drawMap() {
+function drawMap(topo) {
   console.log('Drawing map...');
   initMapParams()
-
 	// g.append("path")
 	//  .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
 	//  .attr("class", "equator")
