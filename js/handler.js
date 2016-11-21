@@ -175,10 +175,14 @@ function initMapParams() {
 function handleMouseClick(){  
   // Update country name on top of chart
   d3.select(".tab-view").select("h3").text(selected_country);
-  // Make bar chart
-  makeSupportChart();
-  // Scroll down to the detail charts
-  $(window).scrollTop($(".indicator-container").offset().top);
+  // Make support chart only if in regular map
+  if (selectedMap.type == REGULAR_MAP) {
+    makeSupportChart();
+    // Scroll down to the detail charts
+    $(window).scrollTop($(".indicator-container").offset().top);
+  } else {
+    alert("Please select regular map to track details!");
+  }
 }
 
 
@@ -245,7 +249,6 @@ function throttle() {
 //geo translation on mouse click in map
 function click() {
   var latlon = projection.invert(d3.mouse(this));
-  console.log(latlon);
 }
 
 
@@ -273,7 +276,7 @@ $( "#separate-disease .selection" ).click(function() {
 var chart_index = 0;
 // Handle event select type of chart
 $(".nav-tabs li").click(function(d) {
-  if (chart_index !== $(this).index()) {
+  if (chart_index !== $(this).index() && selectedMap.type == REGULAR_MAP) {
     // Update tab item status
     $(this).siblings().removeClass("active");
     $(this).addClass("active");
@@ -353,44 +356,19 @@ function drawSurpriseMap() {
   })
   var max_value = +d3.max(values);
   var min_value = +d3.min(values);
+  // console.log("max value: " + max_value);
+  // console.log("min value: " + min_value);
   // Update domain based on data of current year
   surprise = d3.scaleQuantile()
-              .domain([min_value,max_value])
+              .domain([-15,0.015])
               .range(colorbrewer.RdBu[11].reverse());
-
-/*  var svg = d3.select("#chart ");
-  if (svg.empty()) {
-    svg = d3.select(".indicator-container").append("svg").attr("width", "600").attr("height", "350");
-  } else {
-    // Remove all children to redraw
-    svg.selectAll("*").remove();
-  }
-  // Draw surprise legends
-  var svg = d3.select('#chart')
-                .append("g")
-                .attr("width", "200")
-                .attr("height", "200");
-  var legend = g.selectAll("rect")
-  .data(surprise.range())
-  .enter();
-  
-  legend.append("rect")
-  .attr("stroke","#fff")
-  .attr("fill",function(d){ return d;})
-  .attr("y",35)
-  .attr("x",function(d,i){ return 300/2 - (45) + 10*i; })
-  .attr("width",10)
-  .attr("height",10);*/
 
   console.log('Drawing surprise map!');
   d3.select("#topo-world-map")
     .selectAll("path")
     .style("fill",function(d){ 
-    // console.log("Surprise: ");  
- //   console.log(d);
+    // console.log("S
     if (surpriseData[d.properties.name] !== undefined) {
-      // console.log(surpriseData[d.properties.name][0]);
-      // console.log(surprise(surpriseData[d.properties.name][0]));
       return surprise(surpriseData[d.properties.name][index]);
     }
     return no_data_available_color;
@@ -653,9 +631,6 @@ function makeLineChart() {
   
   // var color = d3.scaleOrdinal(d3.schemeCategory10);   // set the colour scale
   var color = d3.scaleOrdinal(['#41ab5d', '#525252', '#d94801', '#6a51a3', '#2171b5']);
-  console.log(color.domain());
-  console.log(color.range());
-  // color.range(['#005a32', '#252525', '#8c2d04', '#4a1486', '#084594'])
 
   legendSpace = width/dataNest.length; // spacing for legend
 
@@ -702,19 +677,19 @@ function calAverageRate(i) {
   var numberOfCountry = 0;
   var sum = d3.sum(d3.values(agg_data[i]).map(function(d) { 
     numberOfCountry++;
-    return d[disease_index]; 
+    return d[0]; 
   }));
-  sum = sum.toFixed(1);
-  var averageRate = (sum/numberOfCountry).toFixed(1);
+  sum = parseFloat(sum.toFixed(1));
+  var averageRate = parseFloat((sum/numberOfCountry).toFixed(1));
   return averageRate;
 }
 
 // Calculate the total of mortality for the current year
 function calSumRate(i) {
   var sum = d3.sum(d3.values(agg_data[i]).map(function(d) {
-    return d[disease_index];
+    return d[0];
   }));
-  return sum.toFixed(1);
+  return parseFloat(sum.toFixed(1));
 }
 
 // Calculate surprise data for each disease
@@ -812,10 +787,6 @@ function calSurprise() {
     for(var j = 0;j<pMs.length;j++){
       pMs[j]/=sum;
     }
-    
-    // uniform.pM.push(pMs[0]);
-    // boom.pM.push(pMs[1]);
-    // bust.pM.push(pMs[2]);
-    
   }
+  console.log(surpriseData);
 }
