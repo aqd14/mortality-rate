@@ -1,0 +1,195 @@
+ISO,Country,Year,HIV,Diarrhoeal,Malaria,Measles,Injuries
+AFG,Afghanistan,2001,0,46.3,0.4,30.2,13.6
+ALB,Albania,2001,0,1.4,0,0,4.4
+DZA,Algeria,2001,0,6.5,0,4.6,4.3
+AND,Andorra,2001,0,0,0,0,0.8
+AGO,Angola,2001,4.2,79.2,53.6,10,13.8
+ATG,Antigua & Barbuda,2001,0,0,0,0,1
+ARG,Argentina,2001,0,1,0,0,3.1
+ARM,Armenia,2001,0.2,2,0,0,5.4
+AUS,Australia,2001,0,0,0,0,1.2
+AUT,Austria,2001,0,0,0,0,0.7
+AZE,Azerbaijan,2001,0,16.6,0,0.2,7.6
+BHS,Bahamas,2001,0.4,0.4,0,0,3.4
+BHR,Bahrain,2001,0,0,0,0,3
+BGD,Bangladesh,2001,0,19.2,2.4,6.2,8.3
+BRB,Barbados,2001,1.4,0,0,0,1.8
+BLR,Belarus,2001,0,0.4,0,0,2
+BEL,Belgium,2001,0,0,0,0,1.4
+BLZ,Belize,2001,0.8,2.2,0,0,4.6
+BEN,Benin,2001,4.2,38.6,43,26.6,10.4
+BTN,Bhutan,2001,0.2,19.4,0.4,7.2,10.1
+BOL,Bolivia,2001,0.2,22.2,0,0,9.8
+BIH,Bosnia and Herzegovina,2001,0,0.2,0,0.2,0.6
+BWA,Botswana,2001,74.4,8.6,0.4,4.6,3.6
+BRA,Brazil,2001,0.2,4.2,0,0,2.8
+BRN,Brunei,2001,0,0,0,0,1
+BGR,Bulgaria,2001,0,0.4,0,0,1.9
+BFA,Burkina Faso,2001,7.2,32,143.2,25,7.4
+BDI,Burundi,2001,10.7,39.4,57.2,17,11.1
+KHM,Cambodia,2001,14,19,96.2,12.4,5.4
+CMR,Cameroon,2001,1.6,5.8,0,4.2,2.3
+CAN,Canada,2001,4.3,29.8,5.4,5.8,11.4
+CPV,Cape Verde,2001,15.8,39.7,58.2,21.6,10.1
+CAF,Central African Republic,2001,0,0,0,0,1
+TCD,Chad,2001,27.8,35.9,87.4,20.4,7.7
+CHL,Chile,2001,9.6,67.7,23,30.8,13.8
+CHN,China,2001,0,0.2,0,0,1.4
+COL,Colombia,2001,0,3,0,0.2,8.4
+COM,Comoros,2001,0.2,2,0.4,0,3.4
+COG,Congo,2001,0,24,16.2,0,8.6
+COD,Congo DR,2001,15.2,28.6,34,21.6,8.7
+COK,Cook Islands,2001,0,0.8,0,0,2.4
+CRI,Costa Rica,2001,0,0.6,0,0,1.4
+CIV,Cote d Ivoire,2001,0,0,0,0,0.8
+HRV,Croatia,2001,0,0.2,0,0,1.6
+CUB,Cuba,2001,0,0,0,0,1
+CYP,Cyprus,2001,0,0,0,0,0.9
+CZE,Czech Republic,2001,0,11.3,0,0,6.4
+DNK,Denmark,2001,4.8,29.6,90.6,30.2,7.2
+DJI,Djibouti,2001,0,0.2,0,0,0.4
+DMA,Dominica,2001,8.5,23,1.4,7.8,8.3
+DOM,Dominican Republic,2001,0,0,0,0,0.4
+ECU,Ecuador,2001,5,5.1,0,0,4
+EGY,Egypt,2001,0.6,5.2,0,0,4.4
+SLV,El Salvador,2001,0,7,0,2.4,3.9
+GNQ,Equatorial Guinea,2001,0.8,5.8,0,0,3.8
+ERI,Eritrea,2001,4.6,36.2,60.4,9.4,9.6
+EST,Estonia,2001,3.9,22.2,1.6,14.6,9.7
+ETH,Ethiopia,2001,0,0.2,0,0,2.6
+FSM,Federated States of Micronesia,2001,9.7,41.4,6.6,5.6,11.8
+FJI,Fiji,2001,0,2.2,0,0.4,3.7
+FIN,Finland,2001,0,0,0,0,0.4
+FRA,France,2001,0,0.2,0,0,1
+GAB,Gabon,2001,20.2,13,13,71.6,5
+GMB,Gambia,2001,4.5,32.4,15.4,5,10.5
+GEO,Georgia,2001,0,2.2,0,0,6
+DEU,Germany,2001,0,0,0,0,0.7
+GHA,Ghana,2001,7,16,42.8,15.2,6.2
+GRC,Greece,2001,0,0,0,0,0.8
+GRD,Grenada,2001,0,0.8,0,0,2.8
+GTM,Guatemala,2001,0.6,11.8,0,0,7.1
+GIN,Guinea,2001,6,38.6,77.4,45.6,9.2
+GNB,Guinea-Bissau,2001,7.2,51.1,40.2,12.4,11.3
+GUY,Guyana,2001,3.4,12.8,3.4,0,2.4
+HTI,Haiti,2001,9.9,33.6,1.2,0,11.8
+HND,Honduras,2001,3.2,7,0,0,2.1
+HUN,Hungary,2001,0,0,0,0,1.1
+ISL,Iceland,2001,0,0,0,0,0.8
+IND,India,2001,0.6,22.8,0.8,6.6,5.5
+IDN,Indonesia,2001,0,10.6,0.4,8.6,6.4
+IRN,Iran,2001,0,5.2,0,0.2,3.8
+IRQ,Iraq,2001,0,7.6,0,1.2,5.2
+IRL,Ireland,2001,0,0,0,0,1.2
+ISR,Israel,2001,0,0,0,0,1
+ITA,Italy,2001,0,0,0,0,0.4
+JAM,Jamaica,2001,4.4,0.6,0,0,1.2
+JPN,Japan,2001,0,0,0,0,1.1
+JOR,Jordan,2001,0,2.2,0,0,4.4
+KAZ,Kazakhstan,2001,0.2,7.8,0,0,5.2
+KEN,Kenya,2001,33.9,23,14.4,2,8.6
+KIR,Kiribati,2001,0,17.2,0,0,7.9
+PRK,North Korea,2001,0,0.2,0,0,2
+KOR,South Korea,2001,0,8.9,0,0,6.2
+KWT,Kuwait,2001,0.2,36.9,1.2,10,12.6
+KGZ,Kyrgyzstan,2001,0,0.2,0,0,4
+LAO,Lao,2001,0,1.6,0,0,3.2
+LVA,Latvia,2001,62.4,25.9,0,0.2,8.4
+LBN,Lebanon,2001,6.2,38.6,96.4,61.6,8.4
+LSO,Lesotho,2001,0,1.6,0,0,5.6
+LBR,Liberia,2001,0,0,0,0,4.2
+LBY,Libya,2001,0,0.2,0,0,1.4
+LTU,Lithuania,2001,1.4,32.4,5.8,9.2,11.4
+LUX,Luxembourg,2001,50.3,42.2,47.4,1,10.6
+MKD,Macedonia,2001,0.2,0.6,0,0,1.2
+MDG,Madagascar,2001,0,3.8,0,0,3.6
+MWI,Malawi,2001,4.8,64.2,100.2,26.4,11.5
+MYS,Malaysia,2001,0,0,0,0,0.8
+MDV,Maldives,2001,0,8.2,0,0,5
+MLI,Mali,2001,2.4,31.3,8.4,25.8,9.9
+MLT,Malta,2001,0,0.6,0,0,2.2
+MHL,Marshall Islands,2001,0,3.8,0,0,5
+MRT,Mauritania,2001,0,11.2,0,0.8,6.4
+MUS,Mauritius,2001,0,0,0,0,0
+MEX,Mexico,2001,0,13.2,0,1.4,7.2
+MDA,Moldova,2001,0,0.2,0,0,0.9
+MCO,Monaco,2001,0.2,8.6,0,0,5
+MNG,Mongolia,2001,26.8,33.7,85.2,11.6,8
+MNE,Montenegro,2001,0.8,18.3,1.6,8,9
+MAR,Morocco,2001,47.8,14,4,0,6.2
+MOZ,Mozambique,2001,0,7.2,0,0,4.4
+MMR,Myanmar,2001,0.2,16.4,0,17,7.8
+NAM,Namibia,2001,0,0,0,0,0.6
+NRU,Nauru,2001,0,0.2,0,0,1.7
+NPL,Nepal,2001,0.8,11,0,0,2.8
+NLD,Netherlands,2001,3.2,85.3,47.4,59.6,15
+NZL,New Zealand,2001,10.3,49.5,75.6,44.4,10.8
+NIC,Nicaragua,2001,0,2.4,0,0,9
+NER,Niger,2001,0,0,0,0,0.6
+NGA,Nigeria,2001,0.2,0.6,0,0,2.9
+NIU,Niue,2001,0,27,0.6,2.2,11.1
+NOR,Norway,2001,0,0.8,0,0,7.2
+OMN,Oman,2001,0.2,2.6,0,0,2.1
+PAK,Pakistan,2001,2.5,14.5,19.4,14.8,6.9
+PLW,Palau,2001,0.2,6,0,0,3.6
+PAN,Panama,2001,1,6,0,0,6
+PNG,Papua New Guinea,2001,0,8.8,0,0.2,5.3
+PRY,Paraguay,2001,0,0,0,0,1
+PER,Peru,2001,0,0,0,0,1.4
+PHL,Philippines,2001,0,0.2,0,0,2.4
+POL,Poland,2001,0,0,0,0,2.1
+PRT,Portugal,2001,0,1,0,0,6.8
+QAT,Qatar,2001,0,1,0,0,4.2
+ROU,Romania,2001,0.6,0.6,0,0,3.8
+RUS,Russian Federation,2001,16.2,58.4,18.8,2.4,13.9
+RWA,Rwanda,2001,0,0.8,0,0,1.6
+KNA,Saint Kitts & Nevis,2001,0.6,0.6,0,0,2.4
+LCA,Saint Lucia,2001,1.4,1,0,0,3.2
+WSM,Samoa,2001,0,2,0,0,3
+SMR,San Marino,2001,0,0,0,0,1.8
+STP,Sao Tome & Principe,2001,3,17.6,32.8,2.8,7
+SAU,Saudi Arabia,2001,0,1.2,0,0,4
+SEN,Senegal,2001,1.2,38.6,21.4,44.8,11
+SRB,Serbia,2001,0,0.2,0,0,1.2
+SYC,Seychelles,2001,0,0.4,0,0,2.6
+SLE,Sierra Leone,2001,2.9,68.6,136.2,38.4,10.8
+SGP,Singapore,2001,0,0.2,0,0,0.8
+SVK,Slovakia,2001,0,0,0,0,1.9
+SVN,Slovenia,2001,0,0,0,0,0.4
+SLB,Solomon Islands,2001,0,4.8,8.8,0,3.6
+SOM,Somalia,2001,1.6,60.5,4.2,92,13.1
+ZAF,South Africa,2001,48,17.4,0,0.6,7.4
+SSD,South Sudan,2001,6,54.7,42.2,16.4,12.5
+ESP,Spain,2001,0,0,0,0,0.7
+LKA,Sri Lanka,2001,0,1.2,0,0,2
+VCT,St Vincent & the Grenadines,2001,0.4,31.4,4.4,16.4,11.2
+SDN,Sudan,2001,3.6,1.8,2,0,3.8
+SUR,Suriname,2001,97.6,32.6,0.2,0,9.6
+SWZ,Swaziland,2001,0,0,0,0,0.5
+SWE,Sweden,2001,0,0,0,0,0.6
+CHE,Switzerland,2001,0,3.8,0,0.4,1.7
+SYR,Syria,2001,0.6,25.2,0,0,10.8
+TJK,Tajikistan,2001,1.6,2,0.4,0.2,2
+TZA,Tanzania,2001,0,1.8,0,0,1
+THA,Thailand,2001,0,32.1,17.2,0,11.7
+TLS,Timor Leste,2001,10.6,20.4,66.2,17.2,6.5
+TGO,Togo,2001,0,1.6,0,0,3.2
+TON,Tonga,2001,2.4,0.8,0,0,5.4
+TTO,Trinidad and Tobago,2001,0,3.2,0,0,3
+TUN,Tunisia,2001,0,0.6,0,0,2.4
+TUR,Turkey,2001,0,22,0,0,9.8
+TKM,Turkmenistan,2001,0,3.8,0,0,4.7
+TUV,Tuvalu,2001,21.6,28.2,80.2,14.6,8.4
+UGA,Uganda,2001,1.6,0.6,0,0,2.2
+UKR,Ukraine,2001,0,0.2,0,0,1.9
+ARE,United Arab Emirates,2001,0,0,0,0,0.6
+GBR,United Kingdom,2001,25,31.2,28.8,4.8,9.6
+USA,United States of America,2001,0,0.4,0,0,1.8
+URY,Uruguay,2001,0.2,0.6,0,0,2.8
+UZB,Uzbekistan,2001,0.4,13.2,0,0,6.7
+VUT,Vanuatu,2001,0,9,3,0.2,3
+VEN,Venezuela,2001,0,4,0,0,2.8
+VNM,Vietnam,2001,0.2,9.2,0.2,4,2.4
+YEM,Yemen,2001,0,26.6,2.4,2.4,10.7
+ZMB,Zambia,2001,37.2,43.2,45.4,9.2,10.6
+ZWE,Zimbabwe,2001,84.2,18.2,7,1.2,6.3

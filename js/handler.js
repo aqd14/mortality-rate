@@ -2,25 +2,16 @@
 -----------------------------------------------------------
 */
 
-var disease_list = ['Total', 'Pneumonia','Diarrhoea','Malaria','Aids','Measles','Injury','Meningitis','Other'];
+// Flag to check what kind of map user selects
+var selectedMap = {
+    type: ""
+};
 
-var topo, projection, path, svg;
+var REGULAR_MAP = "Regular Map";
+var SURPRISE_MAP = "Surprise Map";
 
-var color;
-var curYear = 2000; // Default current year
-
-var no_data_available_color = "#f4e542";
-var selected_country;
-
-// Number of legend, range
-var sub_range = 5
-// Default disease index
-var disease_index = 0;
-// Default value for color disease (Total rate)
-var disease_color = d3.schemeReds[sub_range];
 // Mortality rate domain
 var rate_domain = [];
-
 var max_value;
 var min_value;
 
@@ -31,26 +22,6 @@ var zoom = d3.zoom()
 var c = document.getElementById('chart');
 var width = 900;
 var height = 850;
-
-setup(width,height);
-
-function setup(width,height){
-  projection = d3.geoMercator()
-    .translate([(width/2), (height/2)])
-    .scale( width / 2 / Math.PI);
-
-  path = d3.geoPath().projection(projection);
-
-  svg = d3.select("#chart").append("svg")
-      .attr("width", width)
-      .attr("height", height)
-      .call(zoom)
-      .append("g");
-
-  g = svg.append("g")
-         .on("click", click);
-
-}
 
 // The network of lines of latitude and longitude upon which a map is drawn
 var graticule = d3.geoGraticule();
@@ -64,11 +35,59 @@ var tooltip = d3.select("#chart")
                 .attr("class", "tooltip hidden");
                 //.attr("hidden", "true");
 
+
+// Milestone
+var curYear = 2000; // Default current year
+var boom_year = 2000;
+var bust_year = 2015;
+
+// Data variables
 var data = {};
-var data_2000 = {};
-var data_2015 = {};
+var surpriseData = {};
+var uniform = {};
+var boom = {};
+var bust = {};
+
+var disease_list = ['Total', 'HIV','Diarrhoeal','Malaria','Measles','Injuries'];
+
+var projection, path, svg;
+var selected_country;
+
+// Number of legend, range
+var sub_range = 5
+// Default disease index
+var disease_index = 0;
+
+// --------- Color variable ------------//
+var no_data_available_color = "#f4e542";
+var color;
+// Default value for color disease (Total rate)
+var disease_color = d3.schemeReds[sub_range];
+// Surprise color range
+var surprise;
+
+setup(width,height);
+
+function setup(width,height){
+  projection = d3.geoMercator()
+    .translate([(width/2), (height/2)])
+    .scale( width / 2 / Math.PI);
+
+  path = d3.geoPath().projection(projection);
+
+  svg = d3.select("#chart").append("svg")
+      .attr("id", "topo-world-map")
+      .attr("width", width)
+      .attr("height", height)
+      .call(zoom)
+      .append("g");
+
+  g = svg.append("g")
+         .on("click", click);
+}
 
 function readData(fileName, data) {
+  console.log('Read data ...');
   d3.csv(fileName, function(row) {
   // Convert data from string to number
   row.forEach(function(d, i) {
@@ -78,15 +97,22 @@ function readData(fileName, data) {
       diseases.push(+d[disease_list[index]]);
       total = total + parseFloat(d[disease_list[index]]);
     };
-    diseases.unshift(total.toFixed(1));
-    data[d.CountryName] = diseases;
+    diseases.unshift(parseFloat(total.toFixed(1)));
+    data[d.Country] = diseases;
     return;
-  });
+  })
  });
 }
 
-readData("data/mortality-2000.csv", data_2000);
-readData("data/mortality-2015.csv", data_2015);
+agg_data = [];
+for (var year = boom_year; year <= bust_year; year ++) {
+  var data = {};
+  readData("data/mortality-" + year.toString() + ".csv", data);
+  agg_data.push(data);
+}
+
+// readData("data/mortality-2000.csv", data_2000);
+// readData("data/mortality-2015.csv", data_2015);
 
 // The map
 d3.json("topojson/world-topo-min.json", function(error, world) {
@@ -96,12 +122,13 @@ d3.json("topojson/world-topo-min.json", function(error, world) {
 });
 
 function drawMap() {
+  console.log('Drawing map...');
   initMapParams()
 
-	g.append("path")
-	 .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
-	 .attr("class", "equator")
-	 .attr("d", path);
+	// g.append("path")
+	//  .datum({type: "LineString", coordinates: [[-180, 0], [-90, 0], [0, 0], [90, 0], [180, 0]]})
+	//  .attr("class", "equator")
+	//  .attr("d", path);
 
   var country = g.selectAll(".country").data(topo);
   country.enter().insert("path")
@@ -125,9 +152,17 @@ function drawMap() {
 
 // Initialize parameters needed to draw map at first time
 function initMapParams() {
+  console.log('Init Map Params...');
+  // First look at top of the page
   $(window).scrollTop($(".world-map").offset().top);
+  // Hide surprise legends
+  $('#surprise-legends').hide();
+  // Init type of map
+  selectedMap.type = REGULAR_MAP;
   // Default dataset
-  data = data_2000;
+  data = agg_data[curYear%2000];
+  // Calculate surprise
+  calSurprise();
   // Get min/max values
   updateBoundaryValues();
   // Get default color
@@ -213,11 +248,13 @@ function click() {
   console.log(latlon);
 }
 
+
+// -------------------- Event Handler ------------------------ //
 // Handle event click on total rate
 $("#Total").click(function(d, i) {
   if ($(this).index !== 0) {
     disease_index = 0; // Get index of "Total rate"
-    update();
+    drawRegularMap();
   }
 });
 
@@ -225,7 +262,7 @@ $("#Total").click(function(d, i) {
 $( "#separate-disease .selection" ).click(function() {
   if (disease_index !== ($(this).index() + 1)) {
     disease_index = $(this).index() + 1;
-    update();
+    drawRegularMap();
   }
 });
 
@@ -247,6 +284,29 @@ $(".nav-tabs li").click(function(d) {
   }
 });
 
+$('#map-type-selected').change(function() {
+  var selected_map = this.value;
+  switch(selected_map) {
+    case 'regular-map':
+      $('#surprise-legends').hide();
+      $('.legend-container').show();
+      selectedMap.type = REGULAR_MAP;
+      drawRegularMap();
+      break;
+    case 'surprise-map':
+      // Hide legend container
+      $('.legend-container').hide();
+      $('#surprise-legends').show();
+
+      selectedMap.type = SURPRISE_MAP;
+      // Test
+      // calAverageRate();
+      drawSurpriseMap();
+      break;
+  }
+});
+// ------------------------- End Event Handler ------------------------- //
+
 // Make support chart based on chart index
 // Maintain chart index for each selection
 function makeSupportChart() {
@@ -267,15 +327,87 @@ function makeSupportChart() {
 
 /* Update map color based on the disease's rate */
 function update() {
-  var curYear = +d3.select("#year").node().value;
+  curYear = +d3.select("#year").node().value;
+  // Set label
   d3.select("#yearLabel").text(curYear);
+  switch(selectedMap.type) {
+    case REGULAR_MAP:
+      drawRegularMap();
+      break;
+    case SURPRISE_MAP:
+      drawSurpriseMap();
+      break;
+    default:
+      console.log("Error: " + selectedMap.type);
+      break;
+  }
+}
+
+// Update screen for surprise map:
+// 1. Change to surprise color range
+// 2. Remove some elements from regular map
+function drawSurpriseMap() {
+  index = curYear%2000;
+  var values = d3.values(surpriseData).map(function(d) { 
+    return d[index]; 
+  })
+  var max_value = +d3.max(values);
+  var min_value = +d3.min(values);
+  // Update domain based on data of current year
+  surprise = d3.scaleQuantile()
+              .domain([min_value,max_value])
+              .range(colorbrewer.RdBu[11].reverse());
+
+/*  var svg = d3.select("#chart ");
+  if (svg.empty()) {
+    svg = d3.select(".indicator-container").append("svg").attr("width", "600").attr("height", "350");
+  } else {
+    // Remove all children to redraw
+    svg.selectAll("*").remove();
+  }
+  // Draw surprise legends
+  var svg = d3.select('#chart')
+                .append("g")
+                .attr("width", "200")
+                .attr("height", "200");
+  var legend = g.selectAll("rect")
+  .data(surprise.range())
+  .enter();
+  
+  legend.append("rect")
+  .attr("stroke","#fff")
+  .attr("fill",function(d){ return d;})
+  .attr("y",35)
+  .attr("x",function(d,i){ return 300/2 - (45) + 10*i; })
+  .attr("width",10)
+  .attr("height",10);*/
+
+  console.log('Drawing surprise map!');
+  d3.select("#topo-world-map")
+    .selectAll("path")
+    .style("fill",function(d){ 
+    // console.log("Surprise: ");  
+ //   console.log(d);
+    if (surpriseData[d.properties.name] !== undefined) {
+      // console.log(surpriseData[d.properties.name][0]);
+      // console.log(surprise(surpriseData[d.properties.name][0]));
+      return surprise(surpriseData[d.properties.name][index]);
+    }
+    return no_data_available_color;
+  });
+}
+
+// Update screen for regular map:
+// 1. Make choropleth map for child mortality rate
+// 2. Remove surprise map's elements
+function drawRegularMap() {
   data = getDataCurrentYear(curYear);
 
   switch(disease_index) {
     case 0: // Total rate
       disease_color = d3.schemeReds[sub_range];
       break;
-    case 1: // Pneumonia
+    case 1: // HIV/AIDS
       disease_color = d3.schemeGreens[sub_range];
       break;
     case 2: // Diarrhoea
@@ -284,10 +416,10 @@ function update() {
     case 3: // Malaria
       disease_color = d3.schemeOranges[sub_range];
       break;
-    case 4: // Aids
+    case 4: // Measles
       disease_color = d3.schemePurples[sub_range];
       break;
-    case 5: // Measles
+    case 5: // Injury
       disease_color = d3.schemeBlues[sub_range];
       break;
     case 6: // Injury
@@ -316,26 +448,15 @@ function update() {
 
 // Extract maximum and minimum number of mortility rate
 function updateBoundaryValues() {
-  values = d3.values(data).map(function(d) { return d[disease_index]; })
+  var values = d3.values(data).map(function(d) { return d[disease_index]; })
+//  console.log(values);
   max_value = +d3.max(values);
   min_value = +d3.min(values);
 }
 
 // Return data corressponding with selected year
-function getDataCurrentYear(curYear) {
-  var data;
-  switch(curYear) {
-    case 2000: 
-      data = data_2000;
-      break;
-    case 2015: 
-      data = data_2015;
-      break;
-    default:
-      data = data_2000;
-      break;
-  }
-  return data;
+function getDataCurrentYear() {
+  return agg_data[curYear%2000];
 }
 
 function getDiseaseColor() {
@@ -347,8 +468,8 @@ function getDiseaseColor() {
     rate_domain.push(value);
   }
   var color = d3.scaleQuantile()
-    .domain(rate_domain)
-    .range(disease_color);
+                .domain(rate_domain)
+                .range(disease_color);
   return color;
 }
 
@@ -410,10 +531,6 @@ function makeBarChart() {
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
               width = parseInt(svg.attr("width")) - margin.left - margin.right,
               height = parseInt(svg.attr("height")) - margin.top - margin.bottom;
-              /*width = 600;
-              height = 350;
-  console.log("Height: " + parseInt(container.style("height").replace("px")));
-  console.log("Width: " + width);*/
 
   var g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -431,7 +548,7 @@ function makeBarChart() {
   .append("text")
   .text(function(d) { return d.rate; })
   .attr("x", function(d, i) {
-            return i * (width / country_data.length) + 72;
+            return i * (width / country_data.length) + 90;
          })
    .attr("y", function(d) {
       if (d.rate > 0) {// Only display rate > 0
@@ -478,4 +595,130 @@ function makeLineChart() {
 // Make pie chart to check the portion of each disease
 function makePieChart() {
 
+}
+
+// ------------- Process Surprise Map ---------------------//
+
+  
+// Calculate mortality average rate for current year
+function calAverageRate(i) {
+  var numberOfCountry = 0;
+  var sum = d3.sum(d3.values(agg_data[i]).map(function(d) { 
+    numberOfCountry++;
+    return d[disease_index]; 
+  }));
+  sum = sum.toFixed(1);
+  var averageRate = (sum/numberOfCountry).toFixed(1);
+  return averageRate;
+}
+
+// Calculate the total of mortality for the current year
+function calSumRate(i) {
+  var sum = d3.sum(d3.values(agg_data[i]).map(function(d) {
+    return d[disease_index];
+  }));
+  return sum.toFixed(1);
+}
+
+// Calculate surprise data for each disease
+function calSurprise() {
+  for(var country in data) {
+    surpriseData[country] = [];
+    for (var index = 0; index < agg_data.length; index ++) {
+      surpriseData[country][index] = 0;
+    }
+  }
+
+  // Start with equiprobably P(M)s
+  // For each year:
+  // Calculate observed-expected
+  // Estimate P(D|M)
+  // Estimate P(M|D)
+  // Surprise is D_KL ( P(M|D) || P(M) )
+  // Normalize so sum P(M)s = 1
+  
+  //0 = uniform, 1 = boom, 2 = bust
+  
+  //Initially, everything is equiprobable.
+  var pMs =[(1/3),(1/3),(1/3)];
+
+  // uniform.surprise = [];
+  // boom.surprise = [];
+  // bust.surprise = [];
+  
+  // uniform.pM = [pMs[0]];
+  // boom.pM = [pMs[1]];
+  // bust.pM = [pMs[2]];
+
+  var pDMs = [];
+  var pMDs = [];
+  var avg;
+  var total;
+  //Bayesian surprise is the KL divergence from prior to posterior
+  var kl;
+  var diffs = [0,0,0];
+  var sumDiffs = [0,0,0];
+
+  // Data in 2000
+  var boom_year_data = agg_data[boom_year%2000];
+  // Data in 2015
+  var bust_year_data = agg_data[bust_year%2000];
+
+  for(var i = 0; i < agg_data.length; i++){
+    sumDiffs = [0,0,0];
+    avg = calAverageRate(i);
+    total = calSumRate(i);
+
+    var cur_data = agg_data[i];
+    for(var country in cur_data){
+      //Estimate P(D|M) as 1 - |O - E|
+      //uniform
+      diffs[0] = ((cur_data[country][0]/total) - (avg/total));
+      pDMs[0] = 1 - Math.abs(diffs[0]);
+      //boom
+      diffs[1] = ((cur_data[country][0]/total) - (boom_year_data[country][0]/total));
+      pDMs[1] = 1 - Math.abs(diffs[1]);
+      //bust
+      diffs[2] = ((cur_data[country][0]/total) - (bust_year_data[country][0]/total));
+      pDMs[2] = 1 - Math.abs(diffs[2]);
+      
+      //Estimate P(M|D)
+      //uniform
+      pMDs[0] = pMs[0]*pDMs[0];
+      pMDs[1] = pMs[1]*pDMs[1];
+      pMDs[2] = pMs[2]*pDMs[2];
+      
+      
+      // Surprise is the sum of KL divergance across model space
+      // Each model also gets a weighted "vote" on what the sign should be
+      kl = 0;
+      var voteSum = 0;
+      for(var j=0;j<pMDs.length;j++){
+        kl+= pMDs[j] * (Math.log( pMDs[j] / pMs[0])/Math.log(2));
+        voteSum += diffs[j]*pMs[j];
+        sumDiffs[j]+=Math.abs(diffs[j]);
+      }
+      
+      surpriseData[country][i] = voteSum >= 0 ? Math.abs(kl) : -1*Math.abs(kl);
+    }
+    
+    //Now lets globally update our model belief.
+    
+    for(var j = 0;j<pMs.length;j++){
+      pDMs[j] = 1 - 0.5*sumDiffs[j];
+      pMDs[j] = pMs[j]*pDMs[j];
+      pMs[j] = pMDs[j];
+    }
+    
+    //Normalize
+    var sum = pMs.reduce(function(a, b) { return a + b; }, 0);
+    for(var j = 0;j<pMs.length;j++){
+      pMs[j]/=sum;
+    }
+    
+    // uniform.pM.push(pMs[0]);
+    // boom.pM.push(pMs[1]);
+    // bust.pM.push(pMs[2]);
+    
+  }
 }

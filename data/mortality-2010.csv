@@ -1,0 +1,195 @@
+ISO,Country,Year,HIV,Diarrhoeal,Malaria,Measles,Injuries
+AFG,Afghanistan,2010,0,29.9,0.2,6,13.8
+ALB,Albania,2010,0,0.4,0,0,2.8
+DZA,Algeria,2010,0,3,0,0.2,3.1
+AND,Andorra,2010,0,0,0,0,0.4
+AGO,Angola,2010,5,63.8,21.4,0.6,16.8
+ATG,Antigua & Barbuda,2010,0.2,0,0,0,1.8
+ARG,Argentina,2010,0,0.6,0,0,2.1
+ARM,Armenia,2010,0.2,0.6,0,0,3.2
+AUS,Australia,2010,0,0,0,0,0.6
+AUT,Austria,2010,0,0,0,0,0.4
+AZE,Azerbaijan,2010,0.2,4.9,0,0,4.1
+BHS,Bahamas,2010,0.4,0,0,0,2.8
+BHR,Bahrain,2010,0,0,0,0,1.3
+BGD,Bangladesh,2010,0,8.1,0.4,1.8,6.2
+BRB,Barbados,2010,0,0,0,0,1
+BLR,Belarus,2010,0,0,0,0,1.1
+BEL,Belgium,2010,0,0,0,0,0.8
+BLZ,Belize,2010,0.4,1.6,0,0,3
+BEN,Benin,2010,2.8,25.9,30.8,3.4,10.9
+BTN,Bhutan,2010,1,5.9,0,0.2,5.8
+BOL,Bolivia,2010,0.4,7,0,0,6.6
+BIH,Bosnia and Herzegovina,2010,0,0,0,0.2,0.6
+BWA,Botswana,2010,12.4,7,0,3.2,5
+BRA,Brazil,2010,0,0.8,0,0,1.6
+BRN,Brunei,2010,0,0,0,0,1
+BGR,Bulgaria,2010,0,0.2,0,0.2,1.2
+BFA,Burkina Faso,2010,2,15.7,84.6,8.8,7.2
+BDI,Burundi,2010,3.8,23,14.2,0.4,11.9
+KHM,Cambodia,2010,6.6,16,56.6,1.2,7
+CMR,Cameroon,2010,0.8,3.2,0,0.4,2.7
+CAN,Canada,2010,1,7.2,0.4,1.4,6.3
+CPV,Cape Verde,2010,11,26.2,23.4,0.4,11.6
+CAF,Central African Republic,2010,0,0,0,0,0.8
+TCD,Chad,2010,13.2,31.9,63.6,1.4,10.2
+CHL,Chile,2010,8.2,50.8,19.6,1,15.6
+CHN,China,2010,0,0,0,0,1.2
+COL,Colombia,2010,0,1,0,0.2,4.8
+COM,Comoros,2010,0,1,0.2,0,2.6
+COG,Congo,2010,0,15.4,17,0,8
+COD,Congo DR,2010,7.6,10.6,7.8,0.6,6.8
+COK,Cook Islands,2010,0,0.4,0,0,1.5
+CRI,Costa Rica,2010,0,0.2,0,0,0.8
+CIV,Cote d Ivoire,2010,0,0,0,0,0.5
+HRV,Croatia,2010,0,0.2,0,0,0.9
+CUB,Cuba,2010,0,0,0,0,0.4
+CYP,Cyprus,2010,0,0,0,0,0.6
+CZE,Czech Republic,2010,0,4.2,0,0,4
+DNK,Denmark,2010,3.2,20.8,54.4,2,8.6
+DJI,Djibouti,2010,0,0,0,0,0.3
+DMA,Dominica,2010,6.1,13.9,0.2,1.6,7.8
+DOM,Dominican Republic,2010,0,0,0,0,1.9
+ECU,Ecuador,2010,1.8,3,0,0,3.8
+EGY,Egypt,2010,0,2.2,0,0,3.8
+SLV,El Salvador,2010,0,3.2,0,0,3.3
+GNQ,Equatorial Guinea,2010,0.6,2.4,0,0,2.4
+ERI,Eritrea,2010,14.5,19.6,19.4,3.2,8.9
+EST,Estonia,2010,1.8,12.2,0.6,2.2,9.1
+ETH,Ethiopia,2010,0,0.2,0,0,1.6
+FSM,Federated States of Micronesia,2010,3.4,15.5,2.4,5.2,9.2
+FJI,Fiji,2010,0,2,0,0,5.8
+FIN,Finland,2010,0,0,0,0,0.4
+FRA,France,2010,0,0,0,0,0.6
+GAB,Gabon,2010,14.1,9.1,4.6,4,5.6
+GMB,Gambia,2010,4.2,18.4,5.8,1,9.9
+GEO,Georgia,2010,0,0.4,0,0,2.5
+DEU,Germany,2010,0,0,0,0,0.5
+GHA,Ghana,2010,3.8,11.2,23.8,1.2,6.7
+GRC,Greece,2010,0,0,0,0,0.4
+GRD,Grenada,2010,0,0,0,0,1.4
+GTM,Guatemala,2010,0.8,6,0,0,6
+GIN,Guinea,2010,4.4,21.8,48.6,0.8,9.4
+GNB,Guinea-Bissau,2010,11.8,27,9,1.6,11.1
+GUY,Guyana,2010,0.8,6,6.8,0,8.2
+HTI,Haiti,2010,3.8,23,1.2,0,267
+HND,Honduras,2010,0.8,3.6,0,0,1.8
+HUN,Hungary,2010,0,0,0,0,0.4
+ISL,Iceland,2010,0,0,0,0,0
+IND,India,2010,0.4,12.5,0.8,3.6,4.2
+IDN,Indonesia,2010,0.6,4.6,0.8,3.2,4.2
+IRN,Iran,2010,0,1.8,0,0,2.2
+IRQ,Iraq,2010,0,4.6,0,0.2,4.6
+IRL,Ireland,2010,0,0,0,0,0.2
+ISR,Israel,2010,0,0,0,0,0.6
+ITA,Italy,2010,0,0,0,0,0.3
+JAM,Jamaica,2010,1,0.6,0,0,1.6
+JPN,Japan,2010,0,0.2,0,0,0.6
+JOR,Jordan,2010,0,1.2,0,0,3.6
+KAZ,Kazakhstan,2010,0,2.8,0,0,3
+KEN,Kenya,2010,8.5,10.8,4.8,0.2,7.4
+KIR,Kiribati,2010,0,12.2,0,0,7.6
+PRK,North Korea,2010,0,0,0,0,1.5
+KOR,South Korea,2010,0.2,3.6,0,0,4.6
+KWT,Kuwait,2010,0.6,19.3,0.6,1.4,11.2
+KGZ,Kyrgyzstan,2010,0,0.2,0,0,1.4
+LAO,Lao,2010,0,0.6,0,0.2,1.4
+LVA,Latvia,2010,26.8,22,0,2.2,10.6
+LBN,Lebanon,2010,3.6,18.4,25.2,22,9.2
+LSO,Lesotho,2010,0,0.6,0,0,3.6
+LBR,Liberia,2010,0,0,0,0,1.6
+LBY,Libya,2010,0,0,0,0,0.7
+LTU,Lithuania,2010,1,13.6,1.4,1,9.1
+LUX,Luxembourg,2010,27.3,14.4,21,4.4,7.7
+MKD,Macedonia,2010,0.2,0.2,0,0,1
+MDG,Madagascar,2010,0,0.6,0,0,1.4
+MWI,Malawi,2010,3,33.4,44.4,8,12
+MYS,Malaysia,2010,0,0,0,0,0.2
+MDV,Maldives,2010,0,7,0,0,5.8
+MLI,Mali,2010,2.4,22.6,7,15.8,10.3
+MLT,Malta,2010,0.4,0.4,0,0,2.7
+MHL,Marshall Islands,2010,0,1.2,0,0,2.6
+MRT,Mauritania,2010,0,5.9,0,0.4,5.7
+MUS,Mauritius,2010,0,0,0,0,3
+MEX,Mexico,2010,0,4.2,0,0,4.1
+MDA,Moldova,2010,0,0,0,0,0.2
+MCO,Monaco,2010,0,3.8,0,0,3.6
+MNG,Mongolia,2010,21.6,19.3,30.2,3.2,8.8
+MNE,Montenegro,2010,1,9.7,2,1,7.5
+MAR,Morocco,2010,12.5,10.6,0,1.4,7.4
+MOZ,Mozambique,2010,0,4.8,0,0,3.9
+MMR,Myanmar,2010,0.4,6.2,0,1,5
+NAM,Namibia,2010,0,0,0,0,0.4
+NRU,Nauru,2010,0,0,0,0,1.8
+NPL,Nepal,2010,0.2,4.6,0,0,2.6
+NLD,Netherlands,2010,1.8,33.3,33,1,13.6
+NZL,New Zealand,2010,9.6,29.6,38.6,3.6,11.2
+NIC,Nicaragua,2010,0,2.2,0,0,16
+NER,Niger,2010,0,0,0,0,0.2
+NGA,Nigeria,2010,0,0.4,0,0,1.9
+NIU,Niue,2010,0,18.3,0.2,1.2,11
+NOR,Norway,2010,0,1.6,0,7.2,7.9
+OMN,Oman,2010,0.2,2.4,0,0,2
+PAK,Pakistan,2010,2.2,10.8,13.8,0.8,7.4
+PLW,Palau,2010,0.2,3,0,0,2.8
+PAN,Panama,2010,0.4,2.2,0,0,3.6
+PNG,Papua New Guinea,2010,0,5.2,0,0.4,4.6
+PRY,Paraguay,2010,0,0,0,0,0.4
+PER,Peru,2010,0,0,0,0,0.8
+PHL,Philippines,2010,0,0,0,0.2,1.8
+POL,Poland,2010,0,0,0,0,0.9
+PRT,Portugal,2010,0,0.2,0,0,2.1
+QAT,Qatar,2010,0,0.2,0,0,2
+ROU,Romania,2010,0.4,0.2,0,0,2.1
+RUS,Russian Federation,2010,4.5,13.4,4.8,0.2,9
+RWA,Rwanda,2010,0,0,0,0,1.2
+KNA,Saint Kitts & Nevis,2010,0,0,0,0,0.4
+LCA,Saint Lucia,2010,0,0,0,0,3.2
+WSM,Samoa,2010,0,1.6,0,0,2.3
+SMR,San Marino,2010,0,0,0,0,1.2
+STP,Sao Tome & Principe,2010,1,9,23.4,2.6,6
+SAU,Saudi Arabia,2010,0,0.4,0,0,3.2
+SEN,Senegal,2010,0.8,13.4,5.4,2.8,8.3
+SRB,Serbia,2010,0,0,0,0,0.6
+SYC,Seychelles,2010,0,0.2,0,0,2
+SLE,Sierra Leone,2010,3.1,35.5,93.6,96.6,10.7
+SGP,Singapore,2010,0,0,0,0,0.2
+SVK,Slovakia,2010,0,0,0,0,1
+SVN,Slovenia,2010,0,0,0,0,0.4
+SLB,Solomon Islands,2010,0,5.3,1.4,0,5
+SOM,Somalia,2010,1.6,51.8,1,3.8,15.5
+ZAF,South Africa,2010,22,9.6,0,5.4,7.2
+SSD,South Sudan,2010,8,22.4,17,1.8,10
+ESP,Spain,2010,0,0,0,0,0.4
+LKA,Sri Lanka,2010,0,0.6,0,0,1.4
+VCT,St Vincent & the Grenadines,2010,0.6,20,1.4,2.2,11
+SDN,Sudan,2010,1,0,0,0,5.4
+SUR,Suriname,2010,43.1,18.7,0,0,9.9
+SWZ,Swaziland,2010,0,0,0,0,0.2
+SWE,Sweden,2010,0,0,0,0,0.4
+CHE,Switzerland,2010,0,2.4,0,0.4,1.4
+SYR,Syria,2010,0.4,9.8,0,0,7.7
+TJK,Tajikistan,2010,0.4,1,0,0,1.8
+TZA,Tanzania,2010,0,0.2,0,0,0.8
+THA,Thailand,2010,0.2,13.7,6,0,9.2
+TLS,Timor Leste,2010,7.5,13.6,47.8,1.8,6.9
+TGO,Togo,2010,0,1.2,0,0,3.4
+TON,Tonga,2010,0.8,0.2,0,0,3.2
+TTO,Trinidad and Tobago,2010,0,1.2,0,0,2
+TUN,Tunisia,2010,0,0.2,0,0,1.6
+TUR,Turkey,2010,0,12,0,0,8.3
+TKM,Turkmenistan,2010,0,2,0,0,3.5
+TUV,Tuvalu,2010,16,12.4,21,0.2,7.7
+UGA,Uganda,2010,0.4,0.6,0,0.2,1.4
+UKR,Ukraine,2010,0,0.2,0,0,1.4
+ARE,United Arab Emirates,2010,0,0,0,0,0.4
+GBR,United Kingdom,2010,9.2,12.3,6.4,1,8
+USA,United States of America,2010,0,0.2,0,0,1.7
+URY,Uruguay,2010,0,0.4,0,0,2
+UZB,Uzbekistan,2010,0.4,7,0,0,6.4
+VUT,Vanuatu,2010,0,8.4,1.8,0,3.5
+VEN,Venezuela,2010,0.2,1.8,0,0,2.8
+VNM,Vietnam,2010,0.2,4,0,1,2
+YEM,Yemen,2010,0,10.7,1,0.4,7.6
+ZMB,Zambia,2010,13.6,18.2,9.4,7.8,9.8
+ZWE,Zimbabwe,2010,31.5,17.6,4.8,2,9

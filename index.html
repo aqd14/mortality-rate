@@ -5,6 +5,7 @@
     <script src="https://d3js.org/d3.v4.min.js"></script>
     <script src="https://d3js.org/queue.v1.min.js"></script>
     <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/colorbrewer.v1.min.js"></script>
     <script src="http://d3js.org/topojson.v1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
@@ -56,42 +57,30 @@
           <ul>
             <li id="Total" class="selection">
               <span class="color-block" style="background-color: #99000d"></span>
-              <span class="cause-text">Total</span>
+              <span class="cause-text">TOTAL</span>
             </li>
           </ul>
           <span class="title">Under-five deaths by cause</span>
           <ul id = "separate-disease">
             <li id="sub_1" class="selection">
               <span class="color-block" style="background-color: #005a32"></span>
-              <span class="cause-text">Pneumonia </span>
+              <span class="cause-text">HIV/AIDS </span>
             </li>
             <li id="sub_2" class="selection">
               <span class="color-block" style="background-color: #252525"></span>
-              <span class="cause-text">Diarrhoea </span>
+              <span class="cause-text">DIARRHOEA</span>
             </li>
             <li id="sub_3" class="selection selected">
               <span class="color-block" style="background-color: #8c2d04"></span>
-              <span class="cause-text">Malaria </span>
+              <span class="cause-text">MALARIA </span>
             </li>
             <li id="sub_4" class="selection">
               <span class="color-block" style="background-color: #4a1486"></span>
-              <span class="cause-text">HIV/AIDS</span>
+              <span class="cause-text">MEASLES</span>
             </li>
             <li id="sub_5" class="selection">
               <span class="color-block" style="background-color: #084594"></span>
-              <span class="cause-text">Measles </span>
-            </li>
-            <li id="sub_5" class="selection">
-              <span class="color-block" style="background-color: #005824"></span>
-              <span class="cause-text">Injury </span>
-            </li>
-            <li id="sub_5" class="selection">
-              <span class="color-block" style="background-color: #6e016b"></span>
-              <span class="cause-text">Meningitis </span>
-            </li>
-            <li id="sub_6" class="selection">
-              <span class="color-block" style="background-color: #08589e"></span>
-              <span class="cause-text">Other </span>
+              <span class="cause-text">INJURIES </span>
             </li>
           </ul>
         </div>
@@ -100,10 +89,34 @@
         <div class=world-map>
           <h2>UNDER-FIVE MORTALITY RATE IN EACH COUNTRY</h2>
           <div id="chart">
-              <div id="slider">
-                <p id="yearLabel">2000</p>
-                <input type="range" id="year" value="2000" min="2000" max="2015" step = "15" oninput="update()" />
+            <div class="dropdown-container">
+              <div class="dropdown">
+                <select id="map-type-selected">
+                  <option value="regular-map">Regular Thermatic Map</option>
+                  <option value="surprise-map">Surprise Map</option>
+                </select>
               </div>
+            </div>
+            <div id="slider">
+              <p id="yearLabel">2000</p>
+              <input type="range" id="year" value="2000" min="2000" max="2015" step = "1" oninput="update()" />
+            </div>
+            <svg id="surprise-legends">
+              <text x="155" y="25">Surprise</text>
+              <g>
+                <rect stroke="#fff" fill="#053061" y="35" x="105" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#2166ac" y="35" x="115" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#4393c3" y="35" x="125" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#92c5de" y="35" x="135" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#d1e5f0" y="35" x="145" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#f7f7f7" y="35" x="155" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#fddbc7" y="35" x="165" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#f4a582" y="35" x="175" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#d6604d" y="35" x="185" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#b2182b" y="35" x="195" width="10" height="10"></rect>
+                <rect stroke="#fff" fill="#67001f" y="35" x="205" width="10" height="10"></rect>
+              </g>
+            </svg>
           </div>
         </div>
         <div class="indicator-container">
