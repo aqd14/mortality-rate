@@ -86,10 +86,12 @@ function setup(width,height){
       .attr("height", height)
       .call(zoom)
       .append("g");
+
   svg.append("path")
     .datum(graticule)
     .attr("class", "graticule")
     .attr("d", path);
+
   g = svg.append("g")
          .on("click", click);
 }
@@ -372,7 +374,7 @@ function drawSurpriseMap() {
 
   console.log('Drawing surprise map!');
   d3.select("#topo-world-map")
-    .selectAll("path")
+    .selectAll(".country")
     .style("fill",function(d){ 
     // console.log("S
     if (surpriseData[d.properties.name] !== undefined) {
