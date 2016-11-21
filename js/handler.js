@@ -630,9 +630,14 @@ function makeLineChart() {
       .entries(country_data);
   
   // var color = d3.scaleOrdinal(d3.schemeCategory10);   // set the colour scale
-  var color = d3.scaleOrdinal(['#41ab5d', '#525252', '#d94801', '#6a51a3', '#2171b5']);
+  color_range = ['#41ab5d', '#525252', '#d94801', '#6a51a3', '#2171b5']
+  var color = d3.scaleOrdinal(color_range);
 
   legendSpace = width/dataNest.length; // spacing for legend
+
+  // Add legends
+  var legends = svg.append("g")
+    .attr("class", "legends");
 
   // Add the X Axis
   g.append("g")
@@ -652,14 +657,32 @@ function makeLineChart() {
           .style("stroke", function() { // Add the colours dynamically
               return d.color = color(d.key); })
           .attr("d", line(d.values));
+      
       // Add the Legend
-      svg.append("text")
-          .attr("x", (legendSpace/2)+i*legendSpace) // spacing
-          .attr("y", height + (margin.bottom/2)+ 40)
-          .attr("class", "legend")    // style the legend
-          .style("fill", function() { // dynamic colours
-              return d.color = color(d.key); })
-          .text(d.key);
+      legends.append("rect")
+              .attr("x", width - 200)
+              .attr("y", function() {
+                return height - i*15 - 250;
+              })
+              .attr("width", 15)
+              .attr("height", 12)
+              .attr("fill", function() {
+                  return d.color = color(d.key);
+              });
+
+      legends.append("text")
+              .attr("x", width - 170)
+              .attr("y", function() {
+                return height - i*15 - 240;
+              })
+              .text(d.key);
+      // svg.append("text")
+      //     .attr("x", (legendSpace/2)+i*legendSpace) // spacing
+      //     .attr("y", height + (margin.bottom/2)+ 40)
+      //     .attr("class", "legend")    // style the legend
+      //     .style("fill", function() { // dynamic colours
+      //         return d.color = color(d.key); })
+      //     .text(d.key);
 
   });
 }
