@@ -405,31 +405,22 @@ function drawRegularMap() {
 
   switch(disease_index) {
     case 0: // Total rate
-      disease_color = d3.schemeReds[sub_range];
+      disease_color = ['#fff5f0', '#fcbba1', '#fb6a4a', '#cb181d', '#67000d']//d3.schemeReds[sub_range];
       break;
     case 1: // HIV/AIDS
-      disease_color = d3.schemeGreens[sub_range];
+      disease_color = ['#f7fcf5', '#c7e9c0', '#74c476', '#238b45', '#00441b'];//d3.schemeGreens[sub_range];
       break;
     case 2: // Diarrhoea
-      disease_color = d3.schemeGreys[sub_range];
+      disease_color = ['#ffffff', '#d9d9d9', '#969696', '#525252', '#000000']// d3.schemeGreys[sub_range];
       break;
     case 3: // Malaria
-      disease_color = d3.schemeOranges[sub_range];
+      disease_color = ['#fff5eb', '#fdd0a2', '#fd8d3c','#d94801', '#7f2704']//d3.schemeOranges[sub_range];
       break;
     case 4: // Measles
-      disease_color = d3.schemePurples[sub_range];
+      disease_color = ['#fcfbfd', '#dadaeb', '#9e9ac8', '#6a51a3', '#3f007d']//d3.schemePurples[sub_range];
       break;
     case 5: // Injury
-      disease_color = d3.schemeBlues[sub_range];
-      break;
-    case 6: // Injury
-      disease_color = d3.schemeBuGn[sub_range];
-      break;
-    case 7: // Meningitis
-      disease_color = d3.schemeBuPu[sub_range];
-      break;
-    case 8: // Other
-      disease_color = d3.schemeGnBu[sub_range]
+      disease_color = ['#deebf7', '#9ecae1', '#4292c6', '#2171b5', '#08306b'];//d3.schemeBlues[sub_range];
       break;
     default:
       disease_color = d3.schemeReds[sub_range];
@@ -517,12 +508,14 @@ function extractRate() {
 // Create bar chart for selected country
 function makeBarChart() {
   // Extract country data
-  var country_data = extractRate(selected_country);
+  var country_data = extractRate();
   // Start drawing chart
   var svg = d3.select(".indicator-container svg");
   if (svg.empty()) {
-    svg = d3.select(".indicator-container").append("svg").attr("width", "600").attr("height", "350");
+    svg = d3.select(".indicator-container").append("svg").attr("width", "400").attr("height", "350");
   } else {
+    // Reset dimensional lengths
+    svg.attr("width", "400").attr("height", "350");
     // Remove all children to redraw
     svg.selectAll("*").remove();
   }
@@ -535,7 +528,7 @@ function makeBarChart() {
   var g = svg.append("g")
           .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-  var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+  var x = d3.scaleBand().rangeRound([0, width]).padding(0.5),
       y = d3.scaleLinear().rangeRound([height, 0]);
 
   x.domain(country_data.map(function(d) { return d.disease; }));
@@ -548,8 +541,7 @@ function makeBarChart() {
   .append("text")
   .text(function(d) { return d.rate; })
   .attr("x", function(d, i) {
-            return i * (width / country_data.length) + 90;
-         })
+            return x(d.disease) + 55;})
    .attr("y", function(d) {
       if (d.rate > 0) {// Only display rate > 0
         return y(d.rate) + 15;//h - (d * 4) + 15;
@@ -586,10 +578,115 @@ function makeBarChart() {
       .attr("height", function(d) { return height - y(d.rate); });
 }
 
-// Make line chart to compare mortality rate between selected country 
-// and average rate in whole world
-function makeLineChart() {
+// Extract all disease rate for selected country in 2000-2015
+// Used for drawing line chart
+function extractDiseaseRate() {
+  var country_data = [];
+  // Iterate for each disease
+  for (var disease_index = 1; disease_index < disease_list.length; disease_index ++) {
+    // var disease_rates = [];
+    var disease = disease_list[disease_index];
+    // Iterate for each year
+    for (var year = 2000; year <= 2015; year ++) {
+      var temp_data = agg_data[year%2000][selected_country];
+      // console.log(year);
+      var object = {
+        "year": year,
+        "disease": disease,
+        "rate": temp_data[disease_index],
+      }
+      country_data.push(object);  
+    }
+  }
+  // console.log(country_data);
+  return country_data; 
+}
 
+// Make line chart
+// Show the trend of each disease for selected country from 2000 to 2015
+function makeLineChart() {
+    // Extract country data
+  var country_data = extractDiseaseRate();
+  // console.log(country_data);
+  // Start drawing chart
+  // Set the dimensions of the canvas / graph
+  // var margin = {top: 30, right: 20, bottom: 70, left: 50},
+  //   width = 600 - margin.left - margin.right,
+  //   height = 350 - margin.top - margin.bottom;
+
+  var svg = d3.select(".indicator-container svg");
+  if (svg.empty()) {
+    svg = d3.select(".indicator-container").append("svg");
+  } else {
+    // Remove all children to redraw
+    svg.attr("width", "700").attr("height", "400")
+    svg.selectAll("*").remove();
+  }
+
+  var margin = {top: 20, right: 20, bottom: 30, left: 40},
+              width = parseInt(svg.attr("width")) - margin.left - margin.right,
+              height = parseInt(svg.attr("height")) - margin.top - margin.bottom;
+
+  var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  // var years = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
+  //              2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
+  // Scale the range of the data
+  // var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
+  //     y = d3.scaleLinear().rangeRound([height, 0]);
+
+  var x = d3.scaleTime().rangeRound([0, width]);
+  var y = d3.scaleLinear().rangeRound([height, 0]);
+
+  var parseTime = d3.timeParse("%Y");
+  x.domain(d3.extent(country_data, function(d) { return parseTime(d.year); }));
+  y.domain(d3.extent(country_data, function(d) { return d.rate; }));
+  // Define the line
+ var line = d3.line()
+              .x(function(d) { return x(parseTime(d.year)); })
+              .y(function(d) { return y(d.rate); });
+
+  // Nest the entries by symbol
+  var dataNest = d3.nest()
+      .key(function(d) {return d.disease;})
+      .entries(country_data);
+  
+  // var color = d3.scaleOrdinal(d3.schemeCategory10);   // set the colour scale
+  var color = d3.scaleOrdinal(['#41ab5d', '#525252', '#d94801', '#6a51a3', '#2171b5']);
+  console.log(color.domain());
+  console.log(color.range());
+  // color.range(['#005a32', '#252525', '#8c2d04', '#4a1486', '#084594'])
+
+  legendSpace = width/dataNest.length; // spacing for legend
+
+  // Add the X Axis
+  g.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x).ticks(16));
+
+  // Add the Y Axis
+  g.append("g")
+      .attr("class", "y axis")
+      .call(d3.axisLeft(y).ticks(10));
+
+    // Loop through each symbol / key
+  dataNest.forEach(function(d,i) { 
+      g.append("path")
+          .attr("class", "line")
+          .style("stroke", function() { // Add the colours dynamically
+              return d.color = color(d.key); })
+          .attr("d", line(d.values));
+      // Add the Legend
+      svg.append("text")
+          .attr("x", (legendSpace/2)+i*legendSpace) // spacing
+          .attr("y", height + (margin.bottom/2)+ 40)
+          .attr("class", "legend")    // style the legend
+          .style("fill", function() { // dynamic colours
+              return d.color = color(d.key); })
+          .text(d.key);
+
+  });
 }
 
 // Make pie chart to check the portion of each disease
