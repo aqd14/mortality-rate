@@ -340,6 +340,8 @@ function makeSupportChart() {
 /* Update map color based on the disease's rate */
 function update() {
   curYear = +d3.select("#year").node().value;
+  // Get data from current year
+  data = getDataCurrentYear(curYear);
   // Set label
   d3.select("#yearLabel").text(curYear);
   switch(selectedMap.type) {
@@ -388,8 +390,6 @@ function drawSurpriseMap() {
 // 1. Make choropleth map for child mortality rate
 // 2. Remove surprise map's elements
 function drawRegularMap() {
-  data = getDataCurrentYear(curYear);
-
   switch(disease_index) {
     case 0: // Total rate
       disease_color = ['#fff5f0', '#fcbba1', '#fb6a4a', '#cb181d', '#67000d']//d3.schemeReds[sub_range];
@@ -646,9 +646,6 @@ function makeLineChart() {
   
   // var color = d3.scaleOrdinal(d3.schemeCategory10);   // set the colour scale
   var color = d3.scaleOrdinal(color_range);
-
-  legendSpace = width/dataNest.length; // spacing for legend
-
   // Add legends
   var legends = svg.append("g")
     .attr("class", "legends");
@@ -666,37 +663,30 @@ function makeLineChart() {
 
     // Loop through each symbol / key
   dataNest.forEach(function(d,i) { 
-      g.append("path")
-          .attr("class", "line")
-          .style("stroke", function() { // Add the colours dynamically
-              return d.color = color(d.key); })
-          .attr("d", line(d.values));
-      
-      // Add the Legend
-      legends.append("rect")
-              .attr("x", width - 200)
-              .attr("y", function() {
-                return height - i*15 - 250;
-              })
-              .attr("width", 15)
-              .attr("height", 12)
-              .attr("fill", function() {
-                  return d.color = color(d.key);
-              });
+    g.append("path")
+        .attr("class", "line")
+        .style("stroke", function() { // Add the colours dynamically
+            return d.color = color(d.key); })
+        .attr("d", line(d.values));
+    
+    // Add the Legend
+    legends.append("rect")
+            .attr("x", width - 200)
+            .attr("y", function() {
+              return height - i*15 - 250;
+            })
+            .attr("width", 15)
+            .attr("height", 12)
+            .attr("fill", function() {
+                return d.color = color(d.key);
+            });
 
-      legends.append("text")
-              .attr("x", width - 170)
-              .attr("y", function() {
-                return height - i*15 - 240;
-              })
-              .text(d.key);
-      // svg.append("text")
-      //     .attr("x", (legendSpace/2)+i*legendSpace) // spacing
-      //     .attr("y", height + (margin.bottom/2)+ 40)
-      //     .attr("class", "legend")    // style the legend
-      //     .style("fill", function() { // dynamic colours
-      //         return d.color = color(d.key); })
-      //     .text(d.key);
+    legends.append("text")
+            .attr("x", width - 170)
+            .attr("y", function() {
+              return height - i*15 - 240;
+            })
+            .text(d.key);
 
   });
 }
@@ -807,23 +797,27 @@ function calSurprise() {
         voteSum += diffs[j]*pMs[j];
         sumDiffs[j]+=Math.abs(diffs[j]);
       }
-      
+      // console.log("votesum");
+      // console.log(voteSum);
       surpriseData[country][i] = voteSum >= 0 ? Math.abs(kl) : -1*Math.abs(kl);
     }
     
-    //Now lets globally update our model belief.
-    
+    //Now lets globally update our model belief. 
     for(var j = 0;j<pMs.length;j++){
       pDMs[j] = 1 - 0.5*sumDiffs[j];
-      pMDs[j] = pMs[j]*pDMs[j];
+      pMDs[j] = pMs[j]*pDMs[j];  
       pMs[j] = pMDs[j];
     }
     
     //Normalize
     var sum = pMs.reduce(function(a, b) { return a + b; }, 0);
+    console.log("Before");
+    console.log(pMs);
     for(var j = 0;j<pMs.length;j++){
       pMs[j]/=sum;
     }
+    console.log("After");
+    console.log(pMs);
   }
   console.log(surpriseData);
 }
