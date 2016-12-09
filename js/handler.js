@@ -1,6 +1,27 @@
 /*
------------------------------------------------------------
+The MIT License (MIT)
+
+Copyright (c) 2016 UW Interactive Data Lab
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 */
+
 
 // Flag to check what kind of map user selects
 var selectedMap = {
@@ -21,7 +42,7 @@ var zoom = d3.zoom()
 
 var c = document.getElementById('chart');
 var width = 900;
-var height = 850;
+var height = 600;
 
 // The network of lines of latitude and longitude upon which a map is drawn
 var graticule = d3.geoGraticule();
@@ -74,9 +95,13 @@ function setup(width,height){
   //     .scale(153)
   //   .translate([width / 2, height / 2])
   //   .precision(.1);
-    projection = d3.geoMercator()
-    .translate([(width/2), (height/2)])
-    .scale( width / 2 / Math.PI);
+    // projection = d3.geoMercator()
+    // .translate([(width/2), (height/2)])
+    // .scale( width / 2 / Math.PI);
+    projection = d3.geoCylindricalStereographic()
+    .scale(155)
+    .translate([width / 2, height / 2])
+    .precision(0.1);
 
   path = d3.geoPath().projection(projection);
 
@@ -290,6 +315,7 @@ $(".nav-tabs li").click(function(d) {
     $(this).siblings().removeClass("active");
     $(this).addClass("active");
     // Update chart index
+    console.log("chart index: " + chart_index);
     chart_index = $(this).index();
     // Make supporting chart based on type selected
     makeSupportChart();
@@ -317,11 +343,53 @@ $('#map-type-selected').change(function() {
       break;
   }
 });
+
+// Play / Pause
+var handle;
+$('.icon-play-stop').on("click", function() {
+  console.log("Click on play/stop button!");
+  //$('.icon-play').toggle('300');
+  $('.icon-play-stop').toggleClass('icon-play icon-stop');
+  var handle;
+  if ($('.icon-stop').length) {
+    // Run slider
+    var cur_year = $('#year').val();
+    // console.log("Current year: " + cur_year);
+    var diff_year = 2015 - cur_year;
+
+    for (var i = 0; i < diff_year; i ++) {
+      (function(index) {
+        handle = setTimeout(function() {
+          console.log("Index: " + index);
+          $("#year").val(parseInt($("#year").val()) + 1);
+          $("#year").trigger('change');  
+          update();
+          // Reset year after finishing
+          if (parseInt($('#year').val()) == 2015) {
+            console.log("Reach 2015!");
+            console.log("Clear timeout!");
+            clearTimeout(handle);
+            // clearInterval(handle);
+            // $('#year').val(2000);
+            $('.icon-play-stop').toggleClass('icon-play icon-stop');
+          }
+        }, 1000 * index);
+      })(i);
+    }
+  } else {
+    console.log("After set interval:" + $('#year').val());
+    // clearTimeout(handle);
+    // $("#year").trigger('change');  
+    // update();
+  }
+}); 
+
 // ------------------------- End Event Handler ------------------------- //
 
 // Make support chart based on chart index
 // Maintain chart index for each selection
 function makeSupportChart() {
+  console.log("Make chart");
   switch(chart_index) {
     case 0: 
       makeBarChart();
@@ -331,6 +399,7 @@ function makeSupportChart() {
       break;
     case 2: 
       makePieChart();
+      break;
     default:
       makeBarChart();
       break;
@@ -347,6 +416,8 @@ function update() {
   switch(selectedMap.type) {
     case REGULAR_MAP:
       drawRegularMap();
+      // Update data for support charts
+      // makeSupportChart();
       break;
     case SURPRISE_MAP:
       drawSurpriseMap();
@@ -371,7 +442,7 @@ function drawSurpriseMap() {
   // console.log("min value: " + min_value);
   // Update domain based on data of current year
   surprise = d3.scaleQuantile()
-              .domain([-15,0.015])
+              .domain([-0.015,0.015])
               .range(colorbrewer.RdBu[11].reverse());
 
   console.log('Drawing surprise map!');
@@ -491,6 +562,29 @@ function extractRate() {
   return country_data;
 }
 
+// Extract all disease rate for selected country in 2000-2015
+// Used for drawing line chart
+function extractDiseaseRate() {
+  var country_data = [];
+  // Iterate for each disease
+  for (var disease_index = 1; disease_index < disease_list.length; disease_index ++) {
+    // var disease_rates = [];
+    var disease = disease_list[disease_index];
+    // Iterate for each year
+    for (var year = 2000; year <= 2015; year ++) {
+      var temp_data = agg_data[year%2000][selected_country];
+      // console.log(year);
+      var object = {
+        "year": year,
+        "disease": disease,
+        "rate": temp_data[disease_index],
+      }
+      country_data.push(object);  
+    }
+  }
+  // console.log(country_data);
+  return country_data; 
+}
 
 // Create bar chart for selected country
 function makeBarChart() {
@@ -571,41 +665,12 @@ function makeBarChart() {
       .attr("height", function(d) { return height - y(d.rate); });
 }
 
-// Extract all disease rate for selected country in 2000-2015
-// Used for drawing line chart
-function extractDiseaseRate() {
-  var country_data = [];
-  // Iterate for each disease
-  for (var disease_index = 1; disease_index < disease_list.length; disease_index ++) {
-    // var disease_rates = [];
-    var disease = disease_list[disease_index];
-    // Iterate for each year
-    for (var year = 2000; year <= 2015; year ++) {
-      var temp_data = agg_data[year%2000][selected_country];
-      // console.log(year);
-      var object = {
-        "year": year,
-        "disease": disease,
-        "rate": temp_data[disease_index],
-      }
-      country_data.push(object);  
-    }
-  }
-  // console.log(country_data);
-  return country_data; 
-}
-
 // Make line chart
 // Show the trend of each disease for selected country from 2000 to 2015
 function makeLineChart() {
     // Extract country data
   var country_data = extractDiseaseRate();
-  // console.log(country_data);
   // Start drawing chart
-  // Set the dimensions of the canvas / graph
-  // var margin = {top: 30, right: 20, bottom: 70, left: 50},
-  //   width = 600 - margin.left - margin.right,
-  //   height = 350 - margin.top - margin.bottom;
 
   var svg = d3.select(".indicator-container svg");
   if (svg.empty()) {
@@ -616,17 +681,12 @@ function makeLineChart() {
     svg.selectAll("*").remove();
   }
 
+  // Set the dimensions of the canvas / graph
   var margin = {top: 20, right: 20, bottom: 30, left: 40},
               width = parseInt(svg.attr("width")) - margin.left - margin.right,
               height = parseInt(svg.attr("height")) - margin.top - margin.bottom;
 
   var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  // var years = [2000, 2001, 2002, 2003, 2004, 2005, 2006, 2007,
-  //              2008, 2009, 2010, 2011, 2012, 2013, 2014, 2015]
-  // Scale the range of the data
-  // var x = d3.scaleBand().rangeRound([0, width]).padding(0.1),
-  //     y = d3.scaleLinear().rangeRound([height, 0]);
 
   var x = d3.scaleTime().rangeRound([0, width]);
   var y = d3.scaleLinear().rangeRound([height, 0]);
@@ -644,7 +704,6 @@ function makeLineChart() {
       .key(function(d) {return d.disease;})
       .entries(country_data);
   
-  // var color = d3.scaleOrdinal(d3.schemeCategory10);   // set the colour scale
   var color = d3.scaleOrdinal(color_range);
   // Add legends
   var legends = svg.append("g")
@@ -693,7 +752,55 @@ function makeLineChart() {
 
 // Make pie chart to check the portion of each disease
 function makePieChart() {
+  // Extract country data
+/*  var country_data = extractRate();
+  console.log(country_data);
+  // Preprocessing
+  // Create svg element if not exist yet
+  var svg = d3.select(".indicator-container svg");
+  if (svg.empty()) {
+    svg = d3.select(".indicator-container").append("svg");
+  } else {
+    // Remove all children to redraw
+    svg.attr("width", "700").attr("height", "400")
+    svg.selectAll("*").remove();
+  }
 
+  var width = 700,
+    height = 400,
+    radius = Math.min(width, height) / 2;
+
+  svg.append("g")
+    .attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+
+  var color = d3.scaleOrdinal()
+      .range(color_range);
+
+  var arc = d3.arc()
+      .outerRadius(radius - 10)
+      .innerRadius(0);
+
+  var labelArc = d3.arc()
+      .outerRadius(radius - 40)
+      .innerRadius(radius - 40);
+
+  var pie = d3.pie()
+      .sort(null)
+      .value(function(d) { return d.rate; });
+
+  var g = svg.selectAll(".arc")
+            .data(pie(country_data))
+            .enter().append("g")
+            .attr("class", "arc");
+
+  g.append("path")
+    .attr("d", arc)
+    .style("fill", function(d) { return color(d.disease); });
+
+  g.append("text")
+      .attr("transform", function(d) { return "translate(" + labelArc.centroid(d) + ")"; })
+      .attr("dy", ".35em")
+      .text(function(d) { return d.disease; });*/
 }
 
 // ------------- Process Surprise Map ---------------------//
@@ -741,14 +848,6 @@ function calSurprise() {
   //Initially, everything is equiprobable.
   var pMs =[(1/3),(1/3),(1/3)];
 
-  // uniform.surprise = [];
-  // boom.surprise = [];
-  // bust.surprise = [];
-  
-  // uniform.pM = [pMs[0]];
-  // boom.pM = [pMs[1]];
-  // bust.pM = [pMs[2]];
-
   var pDMs = [];
   var pMDs = [];
   var avg;
@@ -783,41 +882,33 @@ function calSurprise() {
       
       //Estimate P(M|D)
       //uniform
-      pMDs[0] = pMs[0]*pDMs[0];
-      pMDs[1] = pMs[1]*pDMs[1];
-      pMDs[2] = pMs[2]*pDMs[2];
-      
+      for (var j = 0; j < 3; j ++) {
+        pMDs[j] = pMs[j]*pDMs[j]; 
+      }
       
       // Surprise is the sum of KL divergance across model space
       // Each model also gets a weighted "vote" on what the sign should be
       kl = 0;
       var voteSum = 0;
-      for(var j=0;j<pMDs.length;j++){
-        kl+= pMDs[j] * (Math.log( pMDs[j] / pMs[0])/Math.log(2));
+      for(var j = 0; j < pMDs.length; j++){
+        kl+= pMDs[j] * (Math.log( pMDs[j] / pMs[j])/Math.log(2));
         voteSum += diffs[j]*pMs[j];
         sumDiffs[j]+=Math.abs(diffs[j]);
       }
-      // console.log("votesum");
-      // console.log(voteSum);
       surpriseData[country][i] = voteSum >= 0 ? Math.abs(kl) : -1*Math.abs(kl);
     }
     
     //Now lets globally update our model belief. 
-    for(var j = 0;j<pMs.length;j++){
+    for(var j = 0; j < pMs.length; j++){
       pDMs[j] = 1 - 0.5*sumDiffs[j];
       pMDs[j] = pMs[j]*pDMs[j];  
       pMs[j] = pMDs[j];
     }
-    
     //Normalize
-    var sum = pMs.reduce(function(a, b) { return a + b; }, 0);
-    console.log("Before");
-    console.log(pMs);
-    for(var j = 0;j<pMs.length;j++){
+    var sum = d3.sum(pMs);
+    for(var j = 0; j<pMs.length; j++){
       pMs[j]/=sum;
     }
-    console.log("After");
-    console.log(pMs);
   }
-  console.log(surpriseData);
+//  console.log(surpriseData);
 }

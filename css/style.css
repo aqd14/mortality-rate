@@ -59,7 +59,24 @@ body{
 }
 
 #slider input{
-  width:100%;
+  width:90%;
+  float: right;
+}
+
+#slider .icon-play {
+  float: left;
+  width: 24px;
+  height: 24px;
+  background: url(../img/play.png) top left no-repeat;
+  cursor: pointer;
+}
+
+#slider .icon-stop {
+  float: left;
+  width: 24px;
+  height: 24px;
+  background: url(../img/pause.png) top left no-repeat;
+  cursor: pointer;
 }
 
 #surprise-legends {
@@ -265,6 +282,7 @@ path {
     font-weight: bold;
     text-anchor: middle;
 }
+
 
 
 
